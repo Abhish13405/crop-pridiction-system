@@ -1,4 +1,4 @@
-# 🌾 AgriVision AI - Smart Crop Prediction System
+#  AgriVision AI - Smart Crop Prediction System
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.18.0-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
@@ -9,20 +9,20 @@ AgriVision AI is an intelligent deep learning-based crop and plant identificatio
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
-- 🌿 **30 Supported Crops & Fruits**: Classifies 30 different agricultural crops, fruits, grains, pulses, and spices.
-- ⚡ **MobileNetV2 Transfer Learning**: Pre-trained ImageNet backbone fine-tuned for high feature extraction performance.
-- 🎨 **Modern Glassmorphic Web UI**: Drag-and-drop image upload zone with real-time preview, smooth CSS animations, and dark emerald forest aesthetics.
-- 📊 **Top-3 Probability Breakdown**: Displays AI confidence scores with visual progress bars.
-- 🛠️ **Complete Pipeline Tools**:
+-  **30 Supported Crops & Fruits**: Classifies 30 different agricultural crops, fruits, grains, pulses, and spices.
+-  **MobileNetV2 Transfer Learning**: Pre-trained ImageNet backbone fine-tuned for high feature extraction performance.
+-  **Modern Glassmorphic Web UI**: Drag-and-drop image upload zone with real-time preview, smooth CSS animations, and dark emerald forest aesthetics.
+-  **Top-3 Probability Breakdown**: Displays AI confidence scores with visual progress bars.
+-  **Complete Pipeline Tools**:
   - `train_model.py`: Automated 2-phase training & fine-tuning script with stratified splits and data augmentation.
   - `predict.py`: Instant CLI tool for single-image prediction testing.
   - `app.py`: Flask REST API backend for web integration.
 
 ---
 
-## 🌾 Supported Crops (30 Classes)
+## Supported Crops (30 Classes)
 
 | Fruits & Vegetables | Grains & Cereals | Pulses & Legumes | Spices & Plantation |
 | :--- | :--- | :--- | :--- |
@@ -34,7 +34,7 @@ AgriVision AI is an intelligent deep learning-based crop and plant identificatio
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 crop-pridiction-system/
@@ -59,7 +59,7 @@ crop-pridiction-system/
 
 ---
 
-## 🚀 Quick Start Guide
+##  Quick Start Guide
 
 ### 1. Clone the Repository
 ```bash
@@ -83,7 +83,7 @@ pip install -r requirements.txt
 
 ---
 
-## 💻 Running the Application
+## Running the Application
 
 ### Option A: Start the Flask Web App
 ```bash
@@ -127,7 +127,7 @@ python train_model.py
 
 ---
 
-## 🧠 Model Training Specifications
+## Model Training Specifications
 
 - **Base Architecture**: MobileNetV2 (`include_top=False`, ImageNet weights)
 - **Input Shape**: `(224, 224, 3)`
