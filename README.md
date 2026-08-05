@@ -138,7 +138,7 @@ python train_model.py
 
 ---
 
-## 👤 Author & Credits
+##  Author & Credits
 
-Developed with ❤️ for Smart Agriculture applications.
+Developed with abhishek for Smart Agriculture applications.
 - **GitHub**: [@Abhish13405](https://github.com/Abhish13405)
