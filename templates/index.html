@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriVision - Smart crops Prediction System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-wrapper">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>AgriVision <span>AI</span></h1>
+                    <p> </p>
+                </div>
+            </div>
+            <div class="header-badges">
+                <span class="badge"><i class="fa-solid fa-brain"></i> MobileNetV2 Architecture</span>
+                <span class="badge badge-accent"><i class="fa-solid fa-seedling"></i> {{ total_crops }} Crop Classes</span>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="main-grid">
+            <!-- Upload Section -->
+            <section class="card upload-card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-cloud-arrow-up"></i> Upload Crop Image</h2>
+                    <p>Upload photo.</p>
+                </div>
+
+                <form id="upload-form" enctype="multipart/form-data">
+                    <div class="drop-zone" id="drop-zone">
+                        <input type="file" id="file-input" name="file" accept="image/png, image/jpeg, image/jpg" hidden>
+                        
+                        <!-- Initial Upload View -->
+                        <div class="drop-zone-content" id="drop-content">
+                            <div class="upload-icon-pulse">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <h3>Drag & Drop crop photo here</h3>
+                            <p>or <button type="button" class="btn-browse" onclick="document.getElementById('file-input').click()">Browse File</button></p>
+                            <span class="supported-formats">Supports JPG, JPEG, PNG (Up to 10MB)</span>
+                        </div>
+
+                        <!-- Image Preview View -->
+                        <div class="preview-container hidden" id="preview-container">
+                            <img id="image-preview" src="#" alt="Crop Preview">
+                            <div class="preview-overlay">
+                                <button type="button" class="btn-icon btn-remove" id="btn-remove" title="Remove Image">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <span class="file-name-tag" id="file-name-tag">crop_sample.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-bar">
+                        <button type="submit" class="btn-submit" id="btn-submit" disabled>
+                            <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Identify Crop</span>
+                            <span class="btn-loader hidden"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing...</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section -->
+            <section class="card results-card" id="results-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Prediction Analysis</h2>
+                    <p>AI confidence score.</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state">
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </div>
+                    <h3>No Analysis Yet</h3>
+                    <p>Upload a crop photo on the left and click </p>
+                </div>
+
+                <!-- Result Content -->
+                <div class="result-content hidden" id="result-content">
+                    <!-- Main Predicted Winner -->
+                    <div class="winner-card">
+                        <div class="winner-badge">
+                            <i class="fa-solid fa-circle-check"></i> Top Match
+                        </div>
+                        <div class="winner-info">
+                            <h3 id="predicted-crop-title">Banana</h3>
+                            <div class="confidence-pill" id="confidence-pill">
+                                <span id="confidence-score">99.15%</span> Confidence
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 3 Probability Breakdown -->
+                    <div class="probabilities-wrapper">
+                        <h4><i class="fa-solid fa-list-ol"></i> Top 3 Class Probabilities</h4>
+                        <div class="prob-list" id="prob-list">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Additional Agricultural Insight -->
+                    <div class="insight-box">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <div>
+                            <strong>AI Model Insight</strong>
+                            <p id="insight-text">.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with <i class="fa-solid fa-heart"></i>  by Abhishek kushwaha for Crop Prediction System</p>
+        </footer>
+    </div>
+
+    <!-- JS Script -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
