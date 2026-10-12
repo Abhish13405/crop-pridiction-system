@@ -43,21 +43,23 @@ export default function ProfilePage({ lang: propLang, toggleLang: propToggle }) 
   };
 
   return (
-    <div className="fm-profile-page" style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: 'var(--space-2xl)' }}>
-      {/* Header */}
-      <div style={{ marginBottom: 'var(--space-xl)' }}>
-        <div className="fm-badge-trust" style={{ marginBottom: '8px' }}>
-          <User size={16} color="var(--primary-forest)" />
-          <span>{isHi ? 'किसान प्रोफ़ाइल व सेटिंग्स' : 'Farmer Profile & Settings'}</span>
+    <div className="fm-profile-page" style={{ maxWidth: '960px', margin: '0 auto', paddingBottom: 'var(--space-2xl)' }}>
+      {/* Mandi-style Hero Banner */}
+      <div className="fm-mandi-hero" style={{ marginBottom: 'var(--space-xl)' }}>
+        <div className="fm-mandi-hero-content">
+          <div className="fm-mandi-pill-badge">
+            <User size={15} />
+            <span>{isHi ? 'किसान प्रोफ़ाइल व सेटिंग्स' : 'Farmer Profile & Settings'}</span>
+          </div>
+          <h1 className="fm-mandi-title">
+            {isHi ? 'मेरी जानकारी एवं भाषा' : 'Profile & App Settings'}
+          </h1>
+          <p className="fm-mandi-subtitle">
+            {isHi 
+              ? 'अपनी व्यक्तिगत जानकारी सुरक्षित रखें और भाषा प्राथमिकताएं बदलें।' 
+              : 'Manage your local farm profile, language preferences, and data privacy.'}
+          </p>
         </div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-          {isHi ? 'मेरी जानकारी एवं भाषा' : 'Profile & App Settings'}
-        </h1>
-        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
-          {isHi 
-            ? 'अपनी व्यक्तिगत जानकारी सुरक्षित रखें और भाषा प्राथमिकताएं बदलें।' 
-            : 'Manage your local farm profile, language preferences, and data privacy.'}
-        </p>
       </div>
 
       {/* Language Preference Card */}

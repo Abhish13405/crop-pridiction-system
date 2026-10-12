@@ -83,28 +83,29 @@ export default function HistoryPage({ onViewRecord, lang: propLang }) {
   });
 
   return (
-    <div className="fm-history-page" style={{ maxWidth: '960px', margin: '0 auto', paddingBottom: 'var(--space-2xl)' }}>
-      {/* Header */}
-      <div style={{ marginBottom: 'var(--space-xl)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
-        <div>
-          <div className="fm-badge-trust" style={{ marginBottom: '8px' }}>
-            <FileText size={16} color="var(--primary-forest)" />
-            <span>{isHi ? 'सुरक्षित कृषि रिकॉर्ड' : 'Permanent Farm Records'}</span>
+    <div className="fm-history-page" style={{ maxWidth: '1100px', margin: '0 auto', paddingBottom: 'var(--space-2xl)' }}>
+      {/* Mandi-style Hero Banner */}
+      <div className="fm-mandi-hero" style={{ marginBottom: 'var(--space-xl)' }}>
+        <div className="fm-mandi-hero-content">
+          <div className="fm-mandi-pill-badge">
+            <FileText size={15} />
+            <span>{isHi ? 'सुरक्षित किसान डिजिटल रिकॉर्ड' : 'Permanent Farm Advisory Records'}</span>
           </div>
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
+          <h1 className="fm-mandi-title">
             {isHi ? 'सलाह इतिहास एवं रिपोर्ट' : 'Advisory History & Reports'}
           </h1>
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)' }}>
+          <p className="fm-mandi-subtitle">
             {isHi 
               ? 'आपके द्वारा पूर्व में ली गई सभी फसल सिफारिशों की सूची। आप किसी भी पर्ची को पुनः देख व प्रिंट कर सकते हैं।' 
               : 'Archive of previous crop recommendations, soil parameters, and printable advisory slips.'}
           </p>
         </div>
-
-        <button type="button" className="fm-btn fm-btn-outline" onClick={fetchHistory} disabled={loading}>
-          <RefreshCw size={16} className={loading ? 'spin' : ''} />
-          <span>{isHi ? 'रिफ्रेश' : 'Refresh'}</span>
-        </button>
+        <div style={{ alignSelf: 'flex-start' }}>
+          <button type="button" className="fm-btn fm-btn-outline" style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={fetchHistory} disabled={loading}>
+            <RefreshCw size={16} className={loading ? 'spin' : ''} />
+            <span>{isHi ? 'रिफ्रेश' : 'Refresh'}</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter & Search Bar */}

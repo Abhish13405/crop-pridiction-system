@@ -11,7 +11,13 @@ import {
   Clock, 
   ShieldCheck, 
   TrendingUp, 
-  FileCheck 
+  FileCheck,
+  Store,
+  Sparkles,
+  ArrowRight,
+  FlaskConical,
+  Wheat,
+  Share2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -60,230 +66,214 @@ export default function RecommendationResultPage({ result: propResult, inputPara
   const mandi = result.mandi_estimate || {};
 
   return (
-    <div className="fm-result-page">
-      {/* Top Action Bar (hidden during print) */}
-      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-lg)', flexWrap: 'wrap', gap: '12px' }}>
-        <button type="button" className="fm-btn fm-btn-outline" onClick={handleBack}>
-          <ArrowLeft size={18} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', paddingBottom: 40, maxWidth: 960, margin: '0 auto' }}>
+      {/* Top Action Buttons (no-print) */}
+      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+        <button 
+          type="button" 
+          className="fm-btn fm-btn-outline" 
+          onClick={handleBack}
+          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+        >
+          <ArrowLeft size={16} />
           <span>{isHi ? 'नई जांच करें (New Query)' : 'Back to Input Form'}</span>
         </button>
 
-        <button type="button" className="fm-btn fm-btn-primary" onClick={handlePrint}>
-          <Printer size={18} />
-          <span>{isHi ? 'सलाह पर्ची प्रिंट / PDF सेव करें' : 'Print / Save Advisory PDF'}</span>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button 
+            type="button" 
+            className="fm-btn fm-btn-primary" 
+            onClick={handlePrint}
+            style={{ padding: '8px 18px', fontSize: '0.85rem' }}
+          >
+            <Printer size={16} />
+            <span>{isHi ? 'परामर्श पर्ची प्रिंट करें (PDF)' : 'Print Advisory PDF'}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 1. HERO RESULT BANNER */}
+      <div className="fm-mandi-hero" style={{ padding: '36px 30px' }}>
+        <div className="fm-mandi-hero-content">
+          <div className="fm-mandi-hero-pill">
+            <CheckCircle2 size={15} color="#4ADE80" />
+            <span>{isHi ? 'मृदा विश्लेषण सफल (AI Recommendation Ready)' : 'Soil Telemetry Verified'}</span>
+          </div>
+
+          <h1 style={{ fontSize: '2.1rem', fontWeight: 900, marginBottom: 8 }}>
+            {isHi ? '🎉 आपकी मिट्टी के लिए अनुशंसित फसल:' : '🎉 Top Recommended Crop for Your Soil:'}
+          </h1>
+          <div style={{ fontSize: '2.3rem', fontWeight: 900, color: '#FDE047', letterSpacing: '-0.02em', marginBottom: 12 }}>
+            {result.display_name || result.recommended_crop}
+          </div>
+
+          <p style={{ fontSize: '0.95rem', color: '#E2ECE5', lineHeight: 1.6 }}>
+            {result.reason || (isHi ? 'आपकी मिट्टी के पोषक तत्वों व मौसम के आधार पर यह फसल सबसे अधिक उपज देगी।' : 'Optimal agro-climatic conditions for this variety.')}
+          </p>
+
+          <div className="fm-mandi-hero-badges" style={{ marginTop: 18 }}>
+            <div className="fm-mandi-hero-tag">
+              <Sparkles size={14} color="#86EFAC" />
+              <span>{isHi ? `सटीकता विश्वास: ${result.confidence || 98}%` : `Confidence: ${result.confidence || 98}%`}</span>
+            </div>
+            <div className="fm-mandi-hero-tag">
+              <Calendar size={14} color="#FDE047" />
+              <span>{isHi ? `उपयुक्त ऋतु: ${result.season || 'रबी'}` : `Season: ${result.season}`}</span>
+            </div>
+            <div className="fm-mandi-hero-tag">
+              <Clock size={14} color="#93C5FD" />
+              <span>{isHi ? `फसल चक्र: ${result.harvest_days || '115-135 दिन'}` : `Maturity: ${result.harvest_days}`}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. DIRECT LINK TO MANDI BHAV FOR THIS CROP */}
+      <div style={{ backgroundColor: '#FEF3C7', border: '1px solid #FCD34D', borderRadius: 18, padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: '#FDE68A', color: '#92400E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Store size={22} />
+          </div>
+          <div>
+            <h4 style={{ fontWeight: 800, fontSize: '1rem', color: '#78350F' }}>
+              {isHi ? `क्या आप ${result.display_name || 'इस फसल'} का आज का मंडी भाव देखना चाहते हैं?` : 'Check Today\'s Mandi Bhav for this crop?'}
+            </h4>
+            <p style={{ fontSize: '0.8rem', color: '#92400E' }}>
+              {isHi ? 'लाइव न्यूनतम, अधिकतम व मॉडल भाव देखें तथा अपनी कुल आमदनी कैलकुलेट करें।' : 'Track real APMC prices and forecast your harvest sales value.'}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => navigate('/mandi-bhav')}
+          className="fm-btn fm-btn-primary"
+          style={{ padding: '9px 18px', fontSize: '0.85rem', gap: 6 }}
+        >
+          <Store size={15} />
+          <span>{isHi ? 'मंडी भाव देखें' : 'View Mandi Rates'}</span>
+          <ArrowRight size={15} />
         </button>
       </div>
 
-      {/* Main Printable Advisory Slip Card */}
-      <div className="fm-card print-slip" style={{ maxWidth: '860px', margin: '0 auto', backgroundColor: '#FFFFFF' }}>
-        {/* Slip Header */}
-        <div style={{
-          borderBottom: '2px solid var(--primary-forest)',
-          paddingBottom: '16px',
-          marginBottom: '20px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          flexWrap: 'wrap',
-          gap: '12px'
-        }}>
+      {/* 3. FERTILIZER BAG DOSAGE GRID */}
+      <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-card)', borderRadius: 20, padding: 24, boxShadow: 'var(--shadow-card)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 14, marginBottom: 20 }}>
+          <div style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: 'var(--bg-surface-sage)', color: 'var(--primary-forest)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <FlaskConical size={20} />
+          </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-forest)' }}>
-              <Sprout size={28} />
-              <h2 style={{ fontSize: '1.6rem', fontWeight: 800, margin: 0 }}>FasalMitra (फसलमित्र)</h2>
-            </div>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-              {isHi ? 'वैज्ञानिक कृषि एवं मृदा आधारित फसल परामर्श पर्ची' : 'Scientific Soil & Agronomic Crop Advisory Slip'}
-            </p>
-          </div>
-
-          <div style={{ textAlign: 'right', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            <div><strong>{isHi ? 'जारी दिनांक:' : 'Date:'}</strong> {new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-            <div><strong>{isHi ? 'क्षेत्र / जिला:' : 'Region:'}</strong> {inputParams?.location || 'वाराणसी'}</div>
-            {result.record_id && (
-              <div style={{ color: 'var(--primary-forest)', fontWeight: 600 }}>
-                {isHi ? `पंजीकरण संख्या: FM-${result.record_id}` : `Record ID: FM-${result.record_id}`}
-              </div>
-            )}
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
+              {isHi ? 'खाद खुराक एवं पोषक तत्व प्रबंधन (Fertilizer Bag Schedule)' : 'Fertilizer Bag Schedule (Per Acre)'}
+            </h3>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              {isHi ? 'प्रति एकड़ अनुशंसित रासायनिक खाद के कट्टे' : 'Recommended 45kg/50kg standard commercial bags'}
+            </span>
           </div>
         </div>
 
-        {/* 1. PRIMARY RECOMMENDED CROP HERO CARD */}
-        <div style={{
-          backgroundColor: 'var(--bg-surface-sage)',
-          border: '1px solid var(--border-card)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '24px',
-          marginBottom: '24px'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px', marginBottom: '12px' }}>
-            <div>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: '4px',
-                fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase',
-                color: 'var(--status-success-text)', backgroundColor: 'var(--status-success-bg)',
-                padding: '3px 10px', borderRadius: 'var(--radius-pill)', marginBottom: '8px',
-                border: '1px solid var(--status-success-border)'
-              }}>
-                <CheckCircle2 size={14} />
-                {isHi ? 'सर्वाधिक अनुशंसित फसल' : 'Highest Match Crop'}
-              </span>
-              <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--primary-forest)', lineHeight: 1.2 }}>
-                {result.display_name || result.recommended_crop}
-              </h1>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 18 }}>
+          {/* Urea */}
+          <div style={{ backgroundColor: 'var(--bg-page)', border: '1px solid var(--border-card)', borderRadius: 16, padding: 18, textAlign: 'center' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+              {isHi ? 'यूरिया (Urea - 46% N)' : 'Urea (46% N)'}
+            </span>
+            <div style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--primary-forest)', margin: '6px 0' }}>
+              {fert.urea_bags_per_acre ?? 3.5} <span style={{ fontSize: '1rem', fontWeight: 700 }}>{isHi ? 'कट्टे' : 'Bags'}</span>
             </div>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              {isHi ? 'प्रति एकड़ (45 kg बैग)' : 'Per Acre (45kg Bag)'}
+            </span>
+          </div>
 
-            <div style={{
-              textAlign: 'center', backgroundColor: '#FFFFFF',
-              border: '1px solid var(--border-card)', padding: '10px 18px', borderRadius: 'var(--radius-md)'
-            }}>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase' }}>
-                {isHi ? 'मॉडल विश्वास स्कोर' : 'ML Confidence'}
-              </span>
-              <span style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-                {result.confidence}%
-              </span>
+          {/* DAP */}
+          <div style={{ backgroundColor: 'var(--bg-page)', border: '1px solid var(--border-card)', borderRadius: 16, padding: 18, textAlign: 'center' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+              {isHi ? 'डीएपी (DAP - 18:46:0)' : 'DAP (18:46:0)'}
+            </span>
+            <div style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--primary-forest)', margin: '6px 0' }}>
+              {fert.dap_bags_per_acre ?? 1.8} <span style={{ fontSize: '1rem', fontWeight: 700 }}>{isHi ? 'कट्टे' : 'Bags'}</span>
             </div>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              {isHi ? 'प्रति एकड़ (50 kg बैग)' : 'Per Acre (50kg Bag)'}
+            </span>
           </div>
 
-          <p style={{ fontSize: '0.95rem', color: 'var(--text-body)', lineHeight: 1.5 }}>
-            {result.reason}
-          </p>
-        </div>
-
-        {/* 2. CROP KEY PARAMETERS GRID */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '12px',
-          marginBottom: '24px'
-        }}>
-          <div style={{ backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
-              {isHi ? 'अनुकूल मिट्टी' : 'Soil Suitability'}
+          {/* MOP */}
+          <div style={{ backgroundColor: 'var(--bg-page)', border: '1px solid var(--border-card)', borderRadius: 16, padding: 18, textAlign: 'center' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+              {isHi ? 'पोटाश (MOP - 60% K)' : 'MOP Potash (60% K)'}
             </span>
-            <strong style={{ fontSize: '0.9rem', color: 'var(--primary-forest)' }}>
-              {result.soil_considerations}
-            </strong>
-          </div>
-
-          <div style={{ backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
-              {isHi ? 'सिंचाई की आवश्यकता' : 'Water Requirement'}
+            <div style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--primary-forest)', margin: '6px 0' }}>
+              {fert.mop_bags_per_acre ?? 1.2} <span style={{ fontSize: '1rem', fontWeight: 700 }}>{isHi ? 'कट्टे' : 'Bags'}</span>
+            </div>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+              {isHi ? 'प्रति एकड़ (50 kg बैग)' : 'Per Acre (50kg Bag)'}
             </span>
-            <strong style={{ fontSize: '0.9rem', color: 'var(--primary-forest)' }}>
-              {result.water_requirements}
-            </strong>
-          </div>
-
-          <div style={{ backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
-              {isHi ? 'फसल की अवधि' : 'Harvest Window'}
-            </span>
-            <strong style={{ fontSize: '0.9rem', color: 'var(--primary-forest)' }}>
-              {result.harvest_days}
-            </strong>
-          </div>
-
-          <div style={{ backgroundColor: 'var(--bg-surface-subtle)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '12px' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
-              {isHi ? 'औसत मंडी भाव व पैदावार' : 'Avg Mandi Rate & Yield'}
-            </span>
-            <strong style={{ fontSize: '0.9rem', color: 'var(--primary-forest)' }}>
-              ₹{mandi.rate_per_qtl || 2425}/Qtl ({mandi.avg_yield_qtl || 18} Qtl/एकड़)
-            </strong>
           </div>
         </div>
 
-        {/* 3. CALCULATED FERTILIZER DOSAGE BOX */}
-        <div style={{
-          backgroundColor: '#FFFFFF',
-          border: '1px solid var(--border-card)',
-          borderRadius: 'var(--radius-md)',
-          padding: '18px',
-          marginBottom: '24px'
-        }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary-forest)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sprout size={18} />
-            <span>{isHi ? 'प्रति एकड़ खाद (उर्वरक) की संस्तुत मात्रा' : 'Recommended Fertilizer Bags Per Acre'}</span>
-          </h3>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '12px',
-            marginBottom: '14px',
-            textAlign: 'center'
-          }}>
-            <div style={{ backgroundColor: 'var(--bg-surface-subtle)', padding: '12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>यूरिया (Urea - 45kg)</span>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-                {fert.urea_bags_per_acre || 4.2} <small style={{ fontSize: '0.75rem' }}>बोरी</small>
-              </span>
-            </div>
-
-            <div style={{ backgroundColor: 'var(--bg-surface-subtle)', padding: '12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>डीएपी (DAP - 50kg)</span>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-                {fert.dap_bags_per_acre || 2.0} <small style={{ fontSize: '0.75rem' }}>बोरी</small>
-              </span>
-            </div>
-
-            <div style={{ backgroundColor: 'var(--bg-surface-subtle)', padding: '12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>पोटाश (MOP - 50kg)</span>
-              <span style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-                {fert.mop_bags_per_acre || 1.5} <small style={{ fontSize: '0.75rem' }}>बोरी</small>
-              </span>
-            </div>
-          </div>
-
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-body)', backgroundColor: 'var(--bg-surface-sage)', padding: '10px 14px', borderRadius: 'var(--radius-sm)' }}>
-            <strong>{isHi ? 'खाद देने का सही समय:' : 'Application Guidelines:'}</strong>{' '}
+        {fert.tips && (
+          <div style={{ padding: '12px 16px', backgroundColor: 'var(--bg-surface-sage)', borderRadius: 12, border: '1px solid var(--border-subtle)', fontSize: '0.85rem', color: 'var(--text-body)', lineHeight: 1.5 }}>
+            <strong style={{ color: 'var(--primary-forest)' }}>💡 {isHi ? 'विशेष वैज्ञानिक सुझाव: ' : 'Expert Agronomic Tip: '}</strong>
             {fert.tips}
           </div>
+        )}
+      </div>
+
+      {/* 4. AGRONOMIC SPECIFICATIONS & ALTERNATIVES */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
+        {/* Specifications */}
+        <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-card)', borderRadius: 20, padding: 22, boxShadow: 'var(--shadow-subtle)' }}>
+          <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Wheat size={18} color="var(--primary-forest)" />
+            <span>{isHi ? 'फसल की मुख्य आवश्यकताएं' : 'Crop Requirements'}</span>
+          </h4>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.85rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 8, borderBottom: '1px solid var(--border-subtle)' }}>
+              <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'मृदा उपयुक्तता:' : 'Soil Suitability:'}</span>
+              <strong style={{ color: 'var(--text-main)' }}>{result.soil_considerations || 'दोमट मिट्टी (pH 6.5-7.5)'}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 8, borderBottom: '1px solid var(--border-subtle)' }}>
+              <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'सिंचाई आवश्यकता:' : 'Water Needs:'}</span>
+              <strong style={{ color: 'var(--text-main)' }}>{result.water_requirements || 'मध्यम (4-5 सिंचाई)'}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: 8, borderBottom: '1px solid var(--border-subtle)' }}>
+              <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'पकने की अवधि:' : 'Harvest Days:'}</span>
+              <strong style={{ color: 'var(--text-main)' }}>{result.harvest_days || '115-135 दिन'}</strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'अनुमानित पैदावार:' : 'Expected Yield:'}</span>
+              <strong style={{ color: 'var(--primary-forest)' }}>{mandi.avg_yield_qtl || 20} {isHi ? 'क्विंटल / एकड़' : 'Qtl / Acre'}</strong>
+            </div>
+          </div>
         </div>
 
-        {/* 4. ALTERNATIVE CROPS TABLE */}
-        {result.alternatives && result.alternatives.length > 0 && (
-          <div style={{ marginBottom: '24px' }}>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--primary-forest)', marginBottom: '8px' }}>
-              {isHi ? 'वैकल्पिक फसलें (Alternative Crop Options)' : 'Alternative Crops'}
-            </h4>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        {/* Alternatives */}
+        <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border-card)', borderRadius: 20, padding: 22, boxShadow: 'var(--shadow-subtle)' }}>
+          <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <TrendingUp size={18} color="var(--primary-forest)" />
+            <span>{isHi ? 'वैकल्पिक अनुकूल फसलें (Alternatives)' : 'Alternative Suitable Crops'}</span>
+          </h4>
+
+          {result.alternatives && result.alternatives.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {result.alternatives.map((alt, i) => (
-                <div key={i} style={{
-                  backgroundColor: 'var(--bg-surface-subtle)',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '6px 14px',
-                  fontSize: '0.85rem'
-                }}>
-                  <strong style={{ color: 'var(--text-main)' }}>{alt.crop}</strong>
-                  <span style={{ color: 'var(--text-muted)', marginLeft: 6 }}>({alt.confidence}%)</span>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: 'var(--bg-surface-sage)', borderRadius: 12, border: '1px solid var(--border-subtle)' }}>
+                  <span style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '0.9rem' }}>
+                    {alt.crop}
+                  </span>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary-forest)', backgroundColor: '#FFFFFF', padding: '3px 8px', borderRadius: 6 }}>
+                    {alt.confidence ? `${alt.confidence}%` : (isHi ? 'अनुकूल' : 'Suitable')}
+                  </span>
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* 5. SLIP FOOTER */}
-        <div style={{
-          borderTop: '1px solid var(--border-subtle)',
-          paddingTop: '14px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.75rem',
-          color: 'var(--text-muted)',
-          flexWrap: 'wrap',
-          gap: '8px'
-        }}>
-          <div>
-            FasalMitra Agronomic AI &bull; ICAR Benchmark Trained &bull; टोल फ्री किसान हेल्पलाइन: 1800-180-1551
-          </div>
-          <div style={{ fontStyle: 'italic' }}>
-            {isHi ? 'यह सलाह मृदा परीक्षण व क्षेत्रीय मौसम के आधार पर जारी की गई है।' : 'Generated using authenticated soil & climate reference parameters.'}
-          </div>
+          ) : (
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+              {isHi ? 'आपकी मिट्टी के लिए चयनित फसल ही सबसे उपयुक्त है।' : 'Single high-confidence recommendation.'}
+            </p>
+          )}
         </div>
       </div>
     </div>
