@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 // Pages
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import LandingAuthModalPage from './pages/LandingAuthModalPage';
 import DashboardPage from './pages/DashboardPage';
 import CropRecommendationPage from './pages/CropRecommendationPage';
 import RecommendationResultPage from './pages/RecommendationResultPage';
@@ -42,9 +43,11 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Routes (No Sidebar) */}
-          <Route path="/" element={<PublicHomeLayout />} />
-          <Route path="/login" element={<LoginPage />} />
+          {/* Public Initial Landing Modal Page (GrowWise / FasalMitra Auth + Team Showcase) */}
+          <Route path="/" element={<LandingAuthModalPage />} />
+          <Route path="/home" element={<PublicHomeLayout />} />
+          <Route path="/explore" element={<PublicHomeLayout />} />
+          <Route path="/login" element={<LandingAuthModalPage />} />
 
           {/* Authenticated Routes (Wrapped in DashboardLayout with Left Sidebar) */}
           <Route
