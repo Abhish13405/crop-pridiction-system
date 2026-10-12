@@ -283,7 +283,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
             </div>
           </div>
           <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#15803D', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span>36+ मंडियां</span>
+            <span>{isHi ? '36+ मंडियां' : '36+ Mandis'}</span>
             <ArrowRight size={18} />
           </div>
         </div>
@@ -315,7 +315,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
           style={{ padding: '14px', borderRadius: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 6 }}
         >
           <Store size={24} color="#FFFFFF" />
-          <span style={{ fontWeight: 800, fontSize: '0.88rem' }}>{isHi ? 'मंडी भाव व आमदनी' : 'Mandi Bhav'}</span>
+          <span style={{ fontWeight: 800, fontSize: '0.88rem' }}>{isHi ? 'मंडी भाव व आमदनी' : 'Mandi Rates'}</span>
         </button>
 
         <button
@@ -344,7 +344,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 12 }}>
             <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Sprout size={18} color="var(--primary-forest)" />
-              <span>{isHi ? 'मेरे पंजीकृत खेत (Farm Parcels)' : 'Registered Farm Parcels'}</span>
+              <span>{isHi ? 'मेरे पंजीकृत खेत' : 'Registered Farm Parcels'}</span>
             </h3>
             <button
               onClick={() => setShowAddFarmModal(true)}
@@ -362,7 +362,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <h4 style={{ fontWeight: 800, fontSize: '0.95rem', color: 'var(--text-main)' }}>{farm.name}</h4>
                   <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--primary-forest)', backgroundColor: '#FFFFFF', padding: '2px 8px', borderRadius: 6 }}>
-                    {farm.area_acres} एकड़
+                    {farm.area_acres} {isHi ? 'एकड़' : 'Acres'}
                   </span>
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 4 }}>
@@ -379,7 +379,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, borderBottom: '1px solid var(--border-subtle)', paddingBottom: 12 }}>
             <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: 8 }}>
               <FileText size={18} color="var(--primary-forest)" />
-              <span>{isHi ? 'हालिया फसल सलाह (Recent Advice)' : 'Recent Crop Advice'}</span>
+              <span>{isHi ? 'हालिया फसल सलाह' : 'Recent Crop Advice'}</span>
             </h3>
             <button
               onClick={() => goTo('crop-rec', '/crop-recommendation')}
@@ -424,12 +424,12 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
             </button>
 
             <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary-forest)' }}>
-              {isHi ? 'नया खेत जोड़ें (Register New Farm)' : 'Register New Farm Parcel'}
+              {isHi ? 'नया खेत जोड़ें' : 'Register New Farm Parcel'}
             </h3>
 
             <form onSubmit={handleSaveFarm} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div className="fm-mandi-field">
-                <label>{isHi ? 'खेत का नाम (Farm Name):' : 'Farm Name:'}</label>
+                <label>{isHi ? 'खेत का नाम:' : 'Farm Name:'}</label>
                 <input 
                   type="text" 
                   required
@@ -440,7 +440,7 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
               </div>
 
               <div className="fm-mandi-field">
-                <label>{isHi ? 'स्थान / गांव (Location/Village):' : 'Location:'}</label>
+                <label>{isHi ? 'स्थान / गांव:' : 'Location / Village:'}</label>
                 <input 
                   type="text" 
                   required
@@ -468,10 +468,10 @@ export default function DashboardPage({ setCurrentView, lang: propLang }) {
                   value={farmForm.soil_type}
                   onChange={e => setFarmForm({...farmForm, soil_type: e.target.value})}
                 >
-                  <option value="दोमट मिट्टी (Loamy Soil)">दोमट मिट्टी (Loamy Soil)</option>
-                  <option value="काली मिट्टी (Black Soil)">काली मिट्टी (Black Soil)</option>
-                  <option value="बलुई दोमट (Sandy Loam)">बलुई दोमट (Sandy Loam)</option>
-                  <option value="चिकनी मिट्टी (Clay Soil)">चिकनी मिट्टी (Clay Soil)</option>
+                  <option value="दोमट मिट्टी (Loamy Soil)">{isHi ? "दोमट मिट्टी (Loamy Soil)" : "Loamy Soil"}</option>
+                  <option value="काली मिट्टी (Black Soil)">{isHi ? "काली मिट्टी (Black Soil)" : "Black Soil"}</option>
+                  <option value="बलुई दोमट (Sandy Loam)">{isHi ? "बलुई दोमट (Sandy Loam)" : "Sandy Loam"}</option>
+                  <option value="चिकनी मिट्टी (Clay Soil)">{isHi ? "चिकनी मिट्टी (Clay Soil)" : "Clay Soil"}</option>
                 </select>
               </div>
 

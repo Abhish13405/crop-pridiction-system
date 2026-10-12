@@ -364,19 +364,25 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
                 {result.nutrition && (
                   <div style={{ padding: '10px 14px', backgroundColor: '#FEF3C7', borderRadius: 12, border: '1px solid #FDE68A' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#92400E' }}>🥗 पोषण व स्वास्थ्य (Nutrition)</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#92400E' }}>
+                      {isHi ? '🥗 पोषण व स्वास्थ्य (Nutrition)' : '🥗 Nutrition Profile'}
+                    </span>
                     <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#78350F', marginTop: 3 }}>{result.nutrition}</div>
                   </div>
                 )}
                 {result.harvest_season && (
                   <div style={{ padding: '10px 14px', backgroundColor: '#EFF6FF', borderRadius: 12, border: '1px solid #BFDBFE' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1E40AF' }}>📅 तुड़ाई / मौसम (Harvest Season)</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1E40AF' }}>
+                      {isHi ? '📅 तुड़ाई / मौसम (Harvest Season)' : '📅 Harvest Season'}
+                    </span>
                     <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#1E3A8A', marginTop: 3 }}>{result.harvest_season}</div>
                   </div>
                 )}
                 {result.market_rate && (
                   <div style={{ padding: '10px 14px', backgroundColor: '#F0FDF4', borderRadius: 12, border: '1px solid #BBF7D0' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#166534' }}>💰 अनुमानित बाजार भाव (Market Rate)</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#166534' }}>
+                      {isHi ? '💰 अनुमानित बाजार भाव (Market Rate)' : '💰 Estimated Market Price'}
+                    </span>
                     <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#14532D', marginTop: 3 }}>{result.market_rate}</div>
                   </div>
                 )}
@@ -429,7 +435,7 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                   <div style={{ backgroundColor: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: 14, padding: 14, marginBottom: 14 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#92400E', fontWeight: 800, fontSize: '0.88rem', marginBottom: 6 }}>
                       <ShieldAlert size={16} />
-                      <span>{isHi ? 'संभावित रोग व कीट लक्षण (Common Threats)' : 'Identified Plant Threats'}</span>
+                      <span>{isHi ? 'संभावित रोग व कीट लक्षण' : 'Identified Plant Threats'}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {result.guidance.common_threats.map((threat, tIdx) => (
@@ -446,10 +452,10 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                   <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 14, padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#166534', fontWeight: 800, fontSize: '0.9rem', marginBottom: 6 }}>
                       <Leaf size={16} />
-                      <span>{isHi ? 'जैविक उपचार (Organic Care)' : 'Organic Remedy'}</span>
+                      <span>{isHi ? 'जैविक उपचार' : 'Organic Remedy'}</span>
                     </div>
                     <p style={{ fontSize: '0.85rem', color: '#14532D', lineHeight: 1.5, margin: 0 }}>
-                      {result.guidance.organic_cure || result.guidance.organic || 'नीम तेल (5ml/लीटर पानी) का छिड़काव करें एवं ट्राइकोडर्मा विरिडी जैव-कवकनाशी का प्रयोग करें।'}
+                      {result.guidance.organic_cure || result.guidance.organic || (isHi ? 'नीम तेल (5ml/लीटर पानी) का छिड़काव करें एवं ट्राइकोडर्मा विरिडी जैव-कवकनाशी का प्रयोग करें।' : 'Apply 5ml/L neem oil solution and Trichoderma viride bio-fungicide.')}
                     </p>
                   </div>
 
@@ -457,10 +463,10 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                   <div style={{ backgroundColor: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 14, padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#1E40AF', fontWeight: 800, fontSize: '0.9rem', marginBottom: 6 }}>
                       <ShieldAlert size={16} />
-                      <span>{isHi ? 'रासायनिक उपचार (Chemical Schedule)' : 'Chemical Remedy'}</span>
+                      <span>{isHi ? 'रासायनिक उपचार' : 'Chemical Remedy'}</span>
                     </div>
                     <p style={{ fontSize: '0.85rem', color: '#1E3A8A', lineHeight: 1.5, margin: 0 }}>
-                      {result.guidance.chemical_cure || result.guidance.chemical || 'संक्रमण अधिक होने पर अनुशंसित फफूंदनाशक (कॉपर ऑक्सीक्लोराइड 3g/लीटर या Mancozeb) का घोल बनाकर छिड़काव करें।'}
+                      {result.guidance.chemical_cure || result.guidance.chemical || (isHi ? 'संक्रमण अधिक होने पर अनुशंसित फफूंदनाशक (कॉपर ऑक्सीक्लोराइड 3g/लीटर या Mancozeb) का घोल बनाकर छिड़काव करें।' : 'In severe infection, spray Copper Oxychloride 3g/L or Mancozeb fungicide.')}
                     </p>
                   </div>
                 </div>

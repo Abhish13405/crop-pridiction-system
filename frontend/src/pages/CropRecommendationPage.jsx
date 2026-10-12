@@ -359,9 +359,9 @@ export default function CropRecommendationPage({ onResultReady, initialValues: p
                   value={formData.season}
                   onChange={e => setFormData({...formData, season: e.target.value})}
                 >
-                  <option value="खरीफ (Kharif - Monsoon)">खरीफ (Kharif - Monsoon)</option>
-                  <option value="रबी (Rabi - Winter)">रबी (Rabi - Winter)</option>
-                  <option value="जायद (Zaid - Summer)">जायद (Zaid - Summer)</option>
+                  <option value="खरीफ (Kharif - Monsoon)">{isHi ? "खरीफ (Kharif - Monsoon)" : "Kharif (Monsoon)"}</option>
+                  <option value="रबी (Rabi - Winter)">{isHi ? "रबी (Rabi - Winter)" : "Rabi (Winter)"}</option>
+                  <option value="जायद (Zaid - Summer)">{isHi ? "जायद (Zaid - Summer)" : "Zaid (Summer)"}</option>
                 </select>
                 <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                   {isHi ? 'बुवाई का मौसम' : 'Sowing season'}

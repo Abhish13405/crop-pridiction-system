@@ -46,6 +46,22 @@ const CROP_CATEGORIES = [
   { id: 'cash', label_hi: 'नकदी / मसाले (Cash)', label_en: 'Cash / Spices', icon: '🌿', crops: ['कपास', 'जीरा'] }
 ];
 
+export const formatBilingualText = (text, isHi) => {
+  if (!text) return '';
+  if (typeof text !== 'string') return text;
+  if (isHi) {
+    // If Hindi, return Hindi part if formatted like "हिंदी (English)" or just text
+    return text;
+  }
+  // If English, extract English inside parentheses if present, otherwise strip Devanagari
+  const match = text.match(/\(([^)]+)\)/);
+  if (match && match[1]) {
+    return match[1].trim();
+  }
+  // If there's no parentheses but string has both or just English
+  return text.trim();
+};
+
 export default function MandiBhavPage() {
   const { lang } = useAuth();
   const isHi = lang === 'hi';
@@ -185,7 +201,9 @@ export default function MandiBhavPage() {
   const mspDifference = mspTotal ? totalRevenue - mspTotal : null;
 
   const handleCopySlip = () => {
-    const slipText = `🌾 *फसलमित्र मंडी भाव पर्ची* 🌾\nफसल: ${currentCommodityName}\nमंडी: ${calcRecord?.mandi}\nमॉडल भाव: ₹${currentModalRate}/क्विंटल\nकुल पैदावार: ${quintals} क्विंटल\nअनुमानित कुल आमदनी: ₹${totalRevenue.toLocaleString('en-IN')}\nशुद्ध बचत: ₹${netProfit.toLocaleString('en-IN')}`;
+    const slipText = isHi
+      ? `🌾 *फसलमित्र मंडी भाव पर्ची* 🌾\nफसल: ${currentCommodityName}\nमंडी: ${calcRecord?.mandi}\nमॉडल भाव: ₹${currentModalRate}/क्विंटल\nकुल पैदावार: ${quintals} क्विंटल\nअनुमानित कुल आमदनी: ₹${totalRevenue.toLocaleString('en-IN')}\nशुद्ध बचत: ₹${netProfit.toLocaleString('en-IN')}`
+      : `🌾 *FasalMitra Mandi Bhav Slip* 🌾\nCrop: ${formatBilingualText(currentCommodityName, false)}\nMandi: ${formatBilingualText(calcRecord?.mandi, false)}\nModal Rate: ₹${currentModalRate}/Quintal\nProduce: ${quintals} Quintals\nEstimated Revenue: ₹${totalRevenue.toLocaleString('en-IN')}\nNet Margin: ₹${netProfit.toLocaleString('en-IN')}`;
     navigator.clipboard.writeText(slipText);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2500);
@@ -244,7 +262,9 @@ export default function MandiBhavPage() {
                 onClick={() => setCalcRecord(g)}
                 className="fm-mandi-ticker-item"
               >
-                <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{g.commodity.split(' ')[0]}</span>
+                <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>
+                  {formatBilingualText(g.commodity, isHi)}
+                </span>
                 <span style={{ fontWeight: 800, color: 'var(--primary-forest)' }}>₹{g.modal_price}</span>
                 <span style={{ color: '#1B5E20', fontWeight: 800, display: 'flex', alignItems: 'center', fontSize: '0.75rem' }}>
                   <TrendingUp size={12} style={{ marginRight: 2 }} />
@@ -256,7 +276,7 @@ export default function MandiBhavPage() {
 
           <div style={{ display: 'none', alignItems: 'center', gap: 6, fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap' }} className="d-md-flex">
             <span>{isHi ? 'औसत मॉडल:' : 'Avg Modal:'}</span>
-            <strong style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}>₹{marketStats.avg}/क्विंटल</strong>
+            <strong style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}>₹{marketStats.avg}/{isHi ? 'क्विंटल' : 'Qtl'}</strong>
           </div>
         </div>
       )}
@@ -275,7 +295,7 @@ export default function MandiBhavPage() {
             <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 2 }}>
               {isHi 
                 ? `चयनित फसल: ${currentCommodityName} | मंडी: ${calcRecord ? calcRecord.mandi : 'वाराणसी राजातालाब'} | दर: ₹${currentModalRate}/क्विंटल`
-                : `Selected: ${currentCommodityName} @ ₹${currentModalRate}/Quintal`}
+                : `Selected: ${formatBilingualText(currentCommodityName, false)} | Mandi: ${formatBilingualText(calcRecord ? calcRecord.mandi : 'Varanasi Rajatalab', false)} | Rate: ₹${currentModalRate}/Quintal`}
             </div>
           </div>
 
@@ -367,7 +387,7 @@ export default function MandiBhavPage() {
                   ₹ {totalRevenue.toLocaleString('en-IN')}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 4 }}>
-                  {quintals} क्विंटल × ₹{currentModalRate}/क्विंटल
+                  {quintals} {isHi ? 'क्विंटल' : 'Qtl'} × ₹{currentModalRate}/{isHi ? 'क्विंटल' : 'Qtl'}
                 </div>
               </div>
 
@@ -381,7 +401,9 @@ export default function MandiBhavPage() {
                     backgroundColor: mspDifference >= 0 ? '#E8F5E9' : '#FFEBEE',
                     color: mspDifference >= 0 ? '#1B5E20' : '#C62828'
                   }}>
-                    {mspDifference >= 0 ? `+ ₹${mspDifference.toLocaleString('en-IN')} MSP से ऊपर` : `- ₹${Math.abs(mspDifference).toLocaleString('en-IN')} MSP से कम`}
+                    {mspDifference >= 0 
+                      ? (isHi ? `+ ₹${mspDifference.toLocaleString('en-IN')} MSP से ऊपर` : `+ ₹${mspDifference.toLocaleString('en-IN')} Above MSP`)
+                      : (isHi ? `- ₹${Math.abs(mspDifference).toLocaleString('en-IN')} MSP से कम` : `- ₹${Math.abs(mspDifference).toLocaleString('en-IN')} Below MSP`)}
                   </span>
                 </div>
               )}
@@ -405,7 +427,7 @@ export default function MandiBhavPage() {
               <div style={{ marginTop: 14, paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.78rem' }}>
                 <span style={{ color: '#D4EDDA' }}>{isHi ? 'शुद्ध मार्जिन:' : 'Margin:'}</span>
                 <strong style={{ color: '#FDE047', fontSize: '0.9rem' }}>
-                  {totalRevenue > 0 ? `${Math.round((netProfit / totalRevenue) * 100)}% बचत` : '0%'}
+                  {totalRevenue > 0 ? `${Math.round((netProfit / totalRevenue) * 100)}% ${isHi ? 'बचत' : 'Profit'}` : '0%'}
                 </strong>
               </div>
             </div>
@@ -520,7 +542,7 @@ export default function MandiBhavPage() {
             >
               <option value="">{isHi ? 'सभी राज्य (All States)' : 'All States'}</option>
               {states.map((st) => (
-                <option key={st} value={st}>{st}</option>
+                <option key={st} value={st}>{formatBilingualText(st, isHi)}</option>
               ))}
             </select>
           </div>
@@ -534,7 +556,7 @@ export default function MandiBhavPage() {
             >
               <option value="">{isHi ? 'सभी जिले (All Districts)' : 'All Districts'}</option>
               {districts.map((dst) => (
-                <option key={dst} value={dst}>{dst}</option>
+                <option key={dst} value={dst}>{formatBilingualText(dst, isHi)}</option>
               ))}
             </select>
           </div>
@@ -548,7 +570,7 @@ export default function MandiBhavPage() {
             >
               <option value="">{isHi ? 'सभी फसलें (All Crops)' : 'All Crops'}</option>
               {commodities.map((cmd) => (
-                <option key={cmd} value={cmd}>{cmd}</option>
+                <option key={cmd} value={cmd}>{formatBilingualText(cmd, isHi)}</option>
               ))}
             </select>
           </div>
@@ -588,7 +610,7 @@ export default function MandiBhavPage() {
 
           <div style={{ color: 'var(--text-muted)' }}>
             {isHi ? 'उपलब्ध परिणाम: ' : 'Results: '}
-            <strong style={{ color: 'var(--primary-forest)' }}>{filteredRecords.length} मंडियां</strong>
+            <strong style={{ color: 'var(--primary-forest)' }}>{filteredRecords.length} {isHi ? 'मंडियां' : 'Mandis'}</strong>
           </div>
         </div>
       </div>
@@ -656,14 +678,14 @@ export default function MandiBhavPage() {
                     <div className="fm-mandi-card-header">
                       <div>
                         <span className="fm-mandi-badge-loc">
-                          {item.district}
+                          {formatBilingualText(item.district, isHi)}
                         </span>
                         <h4 className="fm-mandi-title">
-                          {item.mandi}
+                          {formatBilingualText(item.mandi, isHi)}
                         </h4>
                         <div className="fm-mandi-sub">
                           <MapPin size={12} color="var(--primary-forest)" />
-                          <span>{item.state}</span>
+                          <span>{formatBilingualText(item.state, isHi)}</span>
                         </div>
                       </div>
 
@@ -681,7 +703,7 @@ export default function MandiBhavPage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className="fm-mandi-commodity-name">
                           <Wheat size={16} color="var(--primary-forest)" />
-                          <span>{item.commodity}</span>
+                          <span>{formatBilingualText(item.commodity, isHi)}</span>
                         </div>
                         {isAboveMsp && (
                           <span style={{ fontSize: '0.65rem', fontWeight: 800, backgroundColor: '#D1E7DD', color: '#0F5132', padding: '2px 6px', borderRadius: 4 }}>
@@ -755,7 +777,7 @@ export default function MandiBhavPage() {
               <table className="fm-mandi-table">
                 <thead>
                   <tr>
-                    <th>{isHi ? 'फसल व किस्म' : 'Commodity'}</th>
+                    <th>{isHi ? 'फसल व किस्म' : 'Commodity & Variety'}</th>
                     <th>{isHi ? 'मंडी एवं जिला' : 'Mandi & District'}</th>
                     <th>{isHi ? 'राज्य' : 'State'}</th>
                     <th style={{ textAlign: 'right' }}>{isHi ? 'न्यूनतम (₹)' : 'Min (₹)'}</th>
@@ -774,18 +796,24 @@ export default function MandiBhavPage() {
                         style={{ backgroundColor: isSelected ? 'var(--bg-surface-sage)' : 'transparent' }}
                       >
                         <td>
-                          <div style={{ fontWeight: 800, color: 'var(--text-main)' }}>{item.commodity}</div>
+                          <div style={{ fontWeight: 800, color: 'var(--text-main)' }}>
+                            {formatBilingualText(item.commodity, isHi)}
+                          </div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{item.variety}</div>
                         </td>
                         <td>
-                          <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>{item.mandi}</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{item.district}</div>
+                          <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>
+                            {formatBilingualText(item.mandi, isHi)}
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                            {formatBilingualText(item.district, isHi)}
+                          </div>
                         </td>
-                        <td>{item.state.split(' ')[0]}</td>
+                        <td>{formatBilingualText(item.state, isHi)}</td>
                         <td style={{ textAlign: 'right', fontWeight: 600 }}>₹{item.min_price}</td>
                         <td style={{ textAlign: 'right' }}>
                           <strong style={{ color: 'var(--primary-forest)', fontSize: '1.05rem', fontWeight: 900 }}>₹{item.modal_price}</strong>
-                          <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block' }}>/क्विंटल</span>
+                          <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block' }}>/{isHi ? 'क्विंटल' : 'Qtl'}</span>
                         </td>
                         <td style={{ textAlign: 'right', fontWeight: 600 }}>₹{item.max_price}</td>
                         <td style={{ textAlign: 'center' }}>
@@ -834,10 +862,10 @@ export default function MandiBhavPage() {
               </div>
               <div>
                 <span className="fm-mandi-badge-loc">
-                  {detailModalItem.district} • {detailModalItem.state}
+                  {formatBilingualText(detailModalItem.district, isHi)} • {formatBilingualText(detailModalItem.state, isHi)}
                 </span>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)' }}>
-                  {detailModalItem.mandi}
+                  {formatBilingualText(detailModalItem.mandi, isHi)}
                 </h3>
               </div>
             </div>
@@ -845,11 +873,11 @@ export default function MandiBhavPage() {
             <div style={{ backgroundColor: 'var(--bg-page)', borderRadius: 14, padding: 14, border: '1px solid var(--border-card)', display: 'flex', flexDirection: 'column', gap: 8, fontSize: '0.82rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'फसल व किस्म:' : 'Crop & Variety:'}</span>
-                <strong>{detailModalItem.commodity} ({detailModalItem.variety})</strong>
+                <strong>{formatBilingualText(detailModalItem.commodity, isHi)} ({detailModalItem.variety})</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'नीलामी का समय:' : 'Auction Timings:'}</span>
-                <strong>सुबह 08:00 AM से दोपहर 02:00 PM</strong>
+                <strong>{isHi ? 'सुबह 08:00 AM से दोपहर 02:00 PM' : '08:00 AM to 02:00 PM'}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'मानक नमी (Moisture):' : 'Std Moisture:'}</span>
@@ -857,7 +885,7 @@ export default function MandiBhavPage() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ color: 'var(--text-muted)' }}>{isHi ? 'आज का मॉडल भाव:' : 'Today\'s Modal:'}</span>
-                <strong style={{ color: 'var(--primary-forest)', fontSize: '1.05rem' }}>₹{detailModalItem.modal_price} / क्विंटल</strong>
+                <strong style={{ color: 'var(--primary-forest)', fontSize: '1.05rem' }}>₹{detailModalItem.modal_price} / {isHi ? 'क्विंटल' : 'Qtl'}</strong>
               </div>
             </div>
 

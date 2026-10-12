@@ -104,7 +104,9 @@ export default function RecommendationResultPage({ result: propResult, inputPara
             {isHi ? '🎉 आपकी मिट्टी के लिए अनुशंसित फसल:' : '🎉 Top Recommended Crop for Your Soil:'}
           </h1>
           <div style={{ fontSize: '2.3rem', fontWeight: 900, color: '#FDE047', letterSpacing: '-0.02em', marginBottom: 12 }}>
-            {result.display_name || result.recommended_crop}
+            {isHi 
+              ? (result.display_name || result.recommended_crop)
+              : (result.recommended_crop ? result.recommended_crop.charAt(0).toUpperCase() + result.recommended_crop.slice(1) : (result.display_name?.match(/\(([^)]+)\)/)?.[1] || result.display_name))}
           </div>
 
           <p style={{ fontSize: '0.95rem', color: '#E2ECE5', lineHeight: 1.6 }}>
@@ -118,11 +120,15 @@ export default function RecommendationResultPage({ result: propResult, inputPara
             </div>
             <div className="fm-mandi-hero-tag">
               <Calendar size={14} color="#FDE047" />
-              <span>{isHi ? `उपयुक्त ऋतु: ${result.season || 'रबी'}` : `Season: ${result.season}`}</span>
+              <span>
+                {isHi 
+                  ? `उपयुक्त ऋतु: ${result.season || 'रबी'}` 
+                  : `Season: ${result.season?.includes('Rabi') || result.season?.includes('रबी') ? 'Rabi' : result.season?.includes('Kharif') || result.season?.includes('खरीफ') ? 'Kharif' : 'Zaid'}`}
+              </span>
             </div>
             <div className="fm-mandi-hero-tag">
               <Clock size={14} color="#93C5FD" />
-              <span>{isHi ? `फसल चक्र: ${result.harvest_days || '115-135 दिन'}` : `Maturity: ${result.harvest_days}`}</span>
+              <span>{isHi ? `फसल चक्र: ${result.harvest_days || '115-135 दिन'}` : `Maturity: ${result.harvest_days?.replace('दिन', 'Days') || '115-135 Days'}`}</span>
             </div>
           </div>
         </div>

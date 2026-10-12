@@ -206,19 +206,19 @@ export default function HistoryPage({ onViewRecord, lang: propLang }) {
                 marginBottom: '14px'
               }}>
                 <div style={{ padding: '8px 12px', backgroundColor: 'var(--surface-offwhite)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-neutral)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>नाइट्रोजन (N)</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{isHi ? 'नाइट्रोजन (N)' : 'Nitrogen (N)'}</span>
                   <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-dark)' }}>{rec.nitrogen} kg/ha</div>
                 </div>
                 <div style={{ padding: '8px 12px', backgroundColor: 'var(--surface-offwhite)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-neutral)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>फास्फोरस (P)</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{isHi ? 'फास्फोरस (P)' : 'Phosphorus (P)'}</span>
                   <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-dark)' }}>{rec.phosphorus} kg/ha</div>
                 </div>
                 <div style={{ padding: '8px 12px', backgroundColor: 'var(--surface-offwhite)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-neutral)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>पोटाश (K)</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{isHi ? 'पोटाश (K)' : 'Potassium (K)'}</span>
                   <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-dark)' }}>{rec.potassium} kg/ha</div>
                 </div>
                 <div style={{ padding: '8px 12px', backgroundColor: 'var(--surface-offwhite)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-neutral)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>मृदा pH मान</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{isHi ? 'मृदा pH मान' : 'Soil pH'}</span>
                   <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-dark)' }}>{rec.ph}</div>
                 </div>
               </div>

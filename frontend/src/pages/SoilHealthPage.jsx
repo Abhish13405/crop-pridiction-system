@@ -299,7 +299,9 @@ export default function SoilHealthPage({ onProceedToCropAdvice, lang: propLang }
               <div key={key} style={{ backgroundColor: 'var(--bg-page)', border: '1px solid var(--border-subtle)', borderRadius: 14, padding: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                   <span style={{ fontWeight: 800, fontSize: '0.9rem', color: 'var(--text-main)', textTransform: 'capitalize' }}>
-                    {key === 'ph' ? 'मृदा पीएच (pH)' : key === 'organic_carbon' ? 'जैविक कार्बन (OC)' : key}
+                    {isHi 
+                      ? (key === 'ph' ? 'मृदा पीएच (pH)' : key === 'organic_carbon' ? 'जैविक कार्बन (OC)' : key === 'nitrogen' ? 'नाइट्रोजन (N)' : key === 'phosphorus' ? 'फास्फोरस (P)' : 'पोटाश (K)')
+                      : (key === 'ph' ? 'Soil pH' : key === 'organic_carbon' ? 'Organic Carbon (OC)' : key === 'nitrogen' ? 'Nitrogen (N)' : key === 'phosphorus' ? 'Phosphorus (P)' : 'Potassium (K)')}
                   </span>
                   <span style={{ 
                     fontSize: '0.75rem', 
@@ -309,7 +311,9 @@ export default function SoilHealthPage({ onProceedToCropAdvice, lang: propLang }
                     backgroundColor: item.level === 'good' ? '#E8F5E9' : '#FFF3CD',
                     color: item.level === 'good' ? '#1B5E20' : '#856404'
                   }}>
-                    {item.status}
+                    {!isHi 
+                      ? (item.status.includes('Optimal') ? 'Optimal' : item.status.includes('Low') ? 'Low' : item.status.includes('High') ? 'High' : 'Normal / Good') 
+                      : item.status}
                   </span>
                 </div>
                 <div style={{ fontSize: '1.3rem', fontWeight: 900, color: 'var(--primary-forest)', marginBottom: 4 }}>
