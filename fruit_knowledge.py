@@ -1,7 +1,7 @@
 """
 =============================================================================
-FRUITS & HORTICULTURE KNOWLEDGE BASE
-Nutritional, Agronomic, and Disease Prevention Data for Common Indian Fruits
+EXTENDED HORTICULTURE & FRUITS KNOWLEDGE BASE (30+ FRUITS)
+Nutritional, Agronomic, and Disease Prevention Data for Indian & Global Fruits
 =============================================================================
 """
 
@@ -173,5 +173,113 @@ FRUIT_DATABASE = {
         "organic_care": "बोर्डो मिश्रण (0.8%) व सल्फर डस्टिंग कवक रोकथाम हेतु करें।",
         "chemical_care": "एजोक्सीस्ट्रोबिन (1ml/L) डाउनी मिल्ड्यू के नियंत्रण में छिड़कें।",
         "market_rate_per_kg": "₹70 - ₹160 प्रति किलो"
+    },
+    "cherry": {
+        "display_name": "चेरी / Sweet Cherry (Prunus avium)",
+        "hindi_name": "चेरी (Cherry)",
+        "category": "शीतोष्ण बेरी फल (Temperate Stone Fruit)",
+        "ideal_climate": "ठंडी पहाड़ी जलवायु (15°C - 22°C), कश्मीर व हिमाचल",
+        "harvest_season": "मई - जुलाई (May - July)",
+        "nutrition": "एंथोसायनिन, मेलाटोनिन (बेहतर नींद), विटामिन C",
+        "common_threats": ["चेरी फ्रूट फ्लाई", "बैक्टीरियल कैंकर"],
+        "organic_care": "नीम अर्क और कॉपर ऑक्सीक्लोराइड कवक नियंत्रण हेतु छिड़कें।",
+        "chemical_care": "डाइमेथोएट या स्पिनोसैड फल मक्खी के नियंत्रण में छिड़कें।",
+        "market_rate_per_kg": "₹180 - ₹400 प्रति किलो"
+    },
+    "fig": {
+        "display_name": "अंजीर / Fig (Ficus carica)",
+        "hindi_name": "अंजीर (Fig)",
+        "category": "उपोष्ण सूखा फल (Subtropical Fruit)",
+        "ideal_climate": "शुष्क व गर्म मौसम (22°C - 36°C)",
+        "harvest_season": "मार्च - मई (Spring / Summer)",
+        "nutrition": "आयरन, कैल्शियम, आंतों के लिए सर्वोत्तम फाइबर",
+        "common_threats": ["रस्ट / गेरुआ रोग (Fig Rust)", "तना छेदक"],
+        "organic_care": "घुलनशील गंधक (2g/L) का छिड़काव फफूंद रोकने के लिए करें।",
+        "chemical_care": "कॉपर कवकनाशी पत्तियों पर गेरुआ रोग दिखने पर छिड़कें।",
+        "market_rate_per_kg": "₹120 - ₹280 प्रति किलो"
+    },
+    "muskmelon": {
+        "display_name": "खरबूजा / Muskmelon / Cantaloupe (Cucumis melo)",
+        "hindi_name": "खरबूजा (Muskmelon)",
+        "category": "जायद / ग्रीष्मकालीन फल (Cucurbit)",
+        "ideal_climate": "तेज धूप व गर्म हवाएं (26°C - 38°C)",
+        "harvest_season": "अप्रैल - जून (Peak Summer)",
+        "nutrition": "विटामिन A (बीटा-कैरोटीन), पोटेशियम, हाइड्रेशन",
+        "common_threats": ["पाउडरी मिल्ड्यू (Powdery Mildew)", "फल मक्खी"],
+        "organic_care": "फेरोमोन ट्रैप लगाएं व नीम तेल 5ml/L का छिड़काव करें।",
+        "chemical_care": "डिनोकैप (1ml/L) पाउडरी मिल्ड्यू के प्रकोप पर छिड़कें।",
+        "market_rate_per_kg": "₹25 - ₹50 प्रति किलो"
+    },
+    "peach": {
+        "display_name": "आड़ू / Peach (Prunus persica)",
+        "hindi_name": "आड़ू (Peach)",
+        "category": "पहाड़ी गुठलीदार फल (Stone Fruit)",
+        "ideal_climate": "पहाड़ी शीतोष्ण जलवायु (16°C - 25°C)",
+        "harvest_season": "मई - जुलाई (Early Summer)",
+        "nutrition": "विटामिन C, विटामिन A, त्वचा के लिए एंटीऑक्सीडेंट्स",
+        "common_threats": ["लीफ कर्ल (Leaf Curl)", "ब्राउन रॉट (Brown Rot)"],
+        "organic_care": "सुषुप्तावस्था में कॉपर कवकनाशी स्प्रे पत्ती मरोड़ा रोग रोकता है।",
+        "chemical_care": "डाइथियानॉन (2g/L) या मैंकोजेब का छिड़काव करें।",
+        "market_rate_per_kg": "₹80 - ₹180 प्रति किलो"
+    },
+    "pear": {
+        "display_name": "नाशपाती / Pear (Pyrus communis)",
+        "hindi_name": "नाशपाती (Pear / Nakh)",
+        "category": "शीतोष्ण फल (Pome Fruit)",
+        "ideal_climate": "शीतोष्ण व उप-पहाड़ी जलवायु (15°C - 28°C)",
+        "harvest_season": "जुलाई - सितंबर (Monsoon Season)",
+        "nutrition": "घुलनशील फाइबर (पेक्टिन), आंतों के लिए सर्वोत्तम",
+        "common_threats": ["फायर ब्लाइट (Fire Blight)", "नाशपाती स्कैब"],
+        "organic_care": "संक्रमित टहनियों की छंटाई करें और बोर्डो पेस्ट लगाएं।",
+        "chemical_care": "स्ट्रेप्टोसाइक्लिन (1g/10L) जीवाणु झुलसा में छिड़कें।",
+        "market_rate_per_kg": "₹60 - ₹130 प्रति किलो"
+    },
+    "plum": {
+        "display_name": "आलूबुखारा / Plum (Prunus domestica)",
+        "hindi_name": "आलूबुखारा (Plum)",
+        "category": "गुठलीदार फल (Stone Fruit)",
+        "ideal_climate": "मध्यम ठंडी जलवायु (16°C - 26°C)",
+        "harvest_season": "मई - जुलाई (Summer Harvest)",
+        "nutrition": "विटामिन K, पाचन में लाभकारी, एंटीऑक्सीडेंट्स",
+        "common_threats": ["ब्राउन रॉट", "एफिड्स / माहू"],
+        "organic_care": "नीम का तेल (5ml/L) और जैविक ट्रैप लगाएं।",
+        "chemical_care": "कार्बेन्डाजिम (1g/L) फल सड़न रोकने के लिए छिड़कें।",
+        "market_rate_per_kg": "₹90 - ₹200 प्रति किलो"
+    },
+    "coconut": {
+        "display_name": "नारियल / Coconut (Cocos nucifera)",
+        "hindi_name": "नारियल (Coconut)",
+        "category": "तटीय कल्पवृक्ष फल (Palm Fruit)",
+        "ideal_climate": "गर्म व आर्द्र तटीय मौसम (24°C - 35°C)",
+        "harvest_season": "साल भर (हर 45 दिन में तुड़ाई)",
+        "nutrition": "इलेक्ट्रोलाइट्स, नारियल पानी, मीडियम चेन फैट्स",
+        "common_threats": ["राइनोसेरोस बीटल (Rhinoceros Beetle)", "माइट्स"],
+        "organic_care": "मेटाहाइजियम जैव-कवक तथा नीम खली की खाद जड़ों में डालें।",
+        "chemical_care": "एजाडिरैक्टिन (1%) क्राउन में डालें।",
+        "market_rate_per_kg": "₹25 - ₹60 प्रति नारियल"
+    },
+    "cucumber": {
+        "display_name": "खीरा / Cucumber (Cucumis sativus)",
+        "hindi_name": "खीरा (Cucumber)",
+        "category": "सब्जी फल / सलाद (Cucurbit Salad Fruit)",
+        "ideal_climate": "गर्म व मध्यम मौसम (22°C - 32°C)",
+        "harvest_season": "फरवरी - जून एवं जुलाई - अक्टूबर",
+        "nutrition": "95% पानी, त्वचा स्वास्थ्य, विटामिन K",
+        "common_threats": ["पाउडरी मिल्ड्यू", "फल मक्खी (Fruit Fly)"],
+        "organic_care": "फेरोमोन ट्रैप व नीम तेल (5ml/L) का छिड़काव करें।",
+        "chemical_care": "मैंकोजेब (2g/L) फफूंद नियंत्रण में छिड़कें।",
+        "market_rate_per_kg": "₹20 - ₹40 प्रति किलो"
+    },
+    "bell_pepper": {
+        "display_name": "शिमला मिर्च / Bell Pepper / Capsicum (Capsicum annuum)",
+        "hindi_name": "शिमला मिर्च (Bell Pepper)",
+        "category": "उद्यानिकी फल-सब्जी (Horticultural Produce)",
+        "ideal_climate": "पॉलीहाउस या मध्यम जलवायु (18°C - 28°C)",
+        "harvest_season": "साल भर (पॉलीहाउस) / अक्टूबर - अप्रैल",
+        "nutrition": "प्रचुर विटामिन C, विटामिन A, एंटीऑक्सीडेंट",
+        "common_threats": ["थ्रिप्स (Thrips)", "एंथ्रेक्नोज (Anthracnose)"],
+        "organic_care": "नीले व पीले स्टिकी ट्रैप लगाएं, नीम तेल छिड़कें।",
+        "chemical_care": "फिपरोनिल (1.5ml/L) थ्रिप्स कीट नियंत्रण में छिड़कें।",
+        "market_rate_per_kg": "₹40 - ₹90 प्रति किलो"
     }
 }

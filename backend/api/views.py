@@ -666,7 +666,7 @@ class FruitDetectionView(APIView):
             raw_predictions = model.predict(img_batch, verbose=0)
             decoded = decode_predictions(raw_predictions, top=10)[0]
 
-            # Mapping of ImageNet labels to Fruit Database keys & Hindi Names
+            # Comprehensive Mapping of ImageNet labels & synonyms to Fruit Database keys
             FRUIT_MAPPING = {
                 'granny_smith': 'apple',
                 'apple': 'apple',
@@ -684,7 +684,16 @@ class FruitDetectionView(APIView):
                 'watermelon': 'watermelon',
                 'mango': 'mango',
                 'papaya': 'papaya',
-                'guava': 'guava'
+                'guava': 'guava',
+                'grapes': 'grapes',
+                'grape': 'grapes',
+                'cherry': 'cherry',
+                'muskmelon': 'muskmelon',
+                'cantaloupe': 'muskmelon',
+                'peach': 'peach',
+                'pear': 'pear',
+                'plum': 'plum',
+                'coconut': 'coconut'
             }
 
             matched_fruit_key = None
