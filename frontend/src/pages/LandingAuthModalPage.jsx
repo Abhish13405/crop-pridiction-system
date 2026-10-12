@@ -21,6 +21,99 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+// Reusable 3D Elevated Box with Smooth Hover Effect
+function HoverInputBox({ children, style = {} }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        border: `1.5px solid ${isFocused ? '#16a34a' : isHovered ? '#16a34a' : '#d8cdbe'}`,
+        borderRadius: '12px',
+        padding: '5px 14px',
+        backgroundColor: isFocused ? '#ffffff' : isHovered ? '#ffffff' : '#fcf9f2',
+        transform: isFocused ? 'translateY(-2px)' : isHovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: isFocused 
+          ? '0 6px 18px -2px rgba(22, 163, 74, 0.22), 0 0 0 3px rgba(34, 197, 94, 0.15)'
+          : isHovered 
+          ? '0 6px 16px -2px rgba(45, 35, 20, 0.12), 0 2px 6px -1px rgba(0, 0, 0, 0.05)'
+          : '0 1px 2px rgba(45, 35, 20, 0.04)',
+        transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+        ...style
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// Reusable Hoverable Team Member Card
+function HoverTeamCard({ member, index, isHi }) {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        background: isHovered ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+        border: `1px solid ${isHovered ? 'rgba(134, 239, 172, 0.65)' : 'rgba(255, 255, 255, 0.12)'}`,
+        borderRadius: '10px',
+        padding: '7px 9px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: isHovered ? '0 8px 20px rgba(0, 0, 0, 0.35)' : 'none',
+        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+      }}
+    >
+      <div style={{
+        width: '24px',
+        height: '24px',
+        borderRadius: '50%',
+        background: index === 0 ? '#22c55e' : 'rgba(255, 255, 255, 0.2)',
+        color: index === 0 ? '#052e16' : '#ffffff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '0.72rem',
+        fontWeight: 800,
+        flexShrink: 0
+      }}>
+        {member.name.charAt(0)}
+      </div>
+      <div style={{ overflow: 'hidden' }}>
+        <div style={{
+          fontSize: '0.78rem',
+          fontWeight: 700,
+          color: '#ffffff',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          overflow: 'hidden'
+        }}>
+          {member.name}
+        </div>
+        <div style={{
+          fontSize: '0.65rem',
+          color: 'rgba(255, 255, 255, 0.76)',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          overflow: 'hidden'
+        }}>
+          {isHi ? member.roleHi : member.roleEn}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function LandingAuthModalPage() {
   const { register, login, guestLogin, lang, toggleLang } = useAuth();
   const isHi = lang === 'hi';
@@ -32,6 +125,7 @@ export default function LandingAuthModalPage() {
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [guestHovered, setGuestHovered] = useState(false);
 
   // Signup Form Fields
   const [signupData, setSignupData] = useState({
@@ -206,8 +300,8 @@ export default function LandingAuthModalPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#07160e',
-      backgroundImage: `linear-gradient(rgba(5, 20, 12, 0.82), rgba(3, 15, 8, 0.90)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80')`,
+      backgroundColor: '#0a1a11',
+      backgroundImage: `linear-gradient(rgba(8, 24, 15, 0.84), rgba(5, 17, 10, 0.92)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -231,24 +325,26 @@ export default function LandingAuthModalPage() {
         pointerEvents: 'none'
       }} />
 
-      {/* Main Container */}
+      {/* Main Warm Container Frame */}
       <div style={{
         width: '100%',
         maxWidth: '1180px',
-        background: '#e5e7eb',
+        background: 'linear-gradient(145deg, #f7f2ea 0%, #ece2d2 100%)',
         borderRadius: '28px',
         padding: '16px',
-        boxShadow: '0 25px 70px -15px rgba(0, 0, 0, 0.75)',
+        border: '1.5px solid #ded3c1',
+        boxShadow: '0 28px 75px -15px rgba(18, 14, 8, 0.8)',
         position: 'relative',
         zIndex: 10
       }}>
+        {/* Split Box in Warm Ivory Surface */}
         <div style={{
-          background: '#ffffff',
+          background: '#fdfbf7',
           borderRadius: '24px',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
           overflow: 'hidden',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)'
+          boxShadow: '0 10px 30px rgba(45, 35, 20, 0.08)'
         }}>
 
           {/* LEFT SIDE: Agricultural Showcase & Team Members */}
@@ -395,68 +491,25 @@ export default function LandingAuthModalPage() {
                 gap: '8px'
               }}>
                 {teamMembers.map((member, index) => (
-                  <div
+                  <HoverTeamCard
                     key={index}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.08)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      borderRadius: '8px',
-                      padding: '6px 8px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px'
-                    }}
-                  >
-                    <div style={{
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      background: index === 0 ? '#22c55e' : 'rgba(255, 255, 255, 0.2)',
-                      color: index === 0 ? '#052e16' : '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.72rem',
-                      fontWeight: 800,
-                      flexShrink: 0
-                    }}>
-                      {member.name.charAt(0)}
-                    </div>
-                    <div style={{ overflow: 'hidden' }}>
-                      <div style={{
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        color: '#ffffff',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden'
-                      }}>
-                        {member.name}
-                      </div>
-                      <div style={{
-                        fontSize: '0.65rem',
-                        color: 'rgba(255, 255, 255, 0.72)',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden'
-                      }}>
-                        {isHi ? member.roleHi : member.roleEn}
-                      </div>
-                    </div>
-                  </div>
+                    member={member}
+                    index={index}
+                    isHi={isHi}
+                  />
                 ))}
               </div>
             </div>
 
           </div>
 
-          {/* RIGHT SIDE: Interactive Auth Panel (Sign Up / Log In / Guest Mode) */}
+          {/* RIGHT SIDE: Interactive Auth Panel in Warm Ivory with 3D Elevation */}
           <div style={{
             padding: '32px 30px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            backgroundColor: '#ffffff'
+            backgroundColor: '#fdfbf7'
           }}>
 
             {/* Top Language Toggle Switch for Right Column */}
@@ -465,17 +518,19 @@ export default function LandingAuthModalPage() {
                 type="button"
                 onClick={toggleLang}
                 style={{
-                  background: '#f8fafc',
-                  border: '1px solid #cbd5e1',
-                  color: '#334155',
-                  padding: '4px 12px',
+                  background: '#f7f2ea',
+                  border: '1px solid #d8cdbe',
+                  color: '#332f2c',
+                  padding: '5px 14px',
                   borderRadius: '9999px',
-                  fontSize: '0.78rem',
+                  fontSize: '0.8rem',
                   fontWeight: 700,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px'
+                  gap: '6px',
+                  boxShadow: '0 1px 3px rgba(45, 35, 20, 0.05)',
+                  transition: 'all 0.2s ease'
                 }}
               >
                 <Globe size={13} color="#16a34a" />
@@ -486,10 +541,11 @@ export default function LandingAuthModalPage() {
             {/* Mode Toggle Pills (Sign Up vs Log In) */}
             <div style={{
               display: 'flex',
-              background: '#f1f5f9',
+              background: '#f2ebde',
               padding: '4px',
               borderRadius: '9999px',
-              marginBottom: '18px'
+              marginBottom: '18px',
+              border: '1px solid #e5dcce'
             }}>
               <button
                 type="button"
@@ -499,11 +555,12 @@ export default function LandingAuthModalPage() {
                   padding: '9px 16px',
                   borderRadius: '9999px',
                   border: 'none',
-                  background: mode === 'signup' ? '#18181b' : 'transparent',
-                  color: mode === 'signup' ? '#ffffff' : '#64748b',
+                  background: mode === 'signup' ? '#1c1917' : 'transparent',
+                  color: mode === 'signup' ? '#ffffff' : '#6b645b',
                   fontSize: '0.9rem',
                   fontWeight: 700,
                   cursor: 'pointer',
+                  boxShadow: mode === 'signup' ? '0 2px 8px rgba(0, 0, 0, 0.18)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -517,11 +574,12 @@ export default function LandingAuthModalPage() {
                   padding: '9px 16px',
                   borderRadius: '9999px',
                   border: 'none',
-                  background: mode === 'login' ? '#18181b' : 'transparent',
-                  color: mode === 'login' ? '#ffffff' : '#64748b',
+                  background: mode === 'login' ? '#1c1917' : 'transparent',
+                  color: mode === 'login' ? '#ffffff' : '#6b645b',
                   fontSize: '0.9rem',
                   fontWeight: 700,
                   cursor: 'pointer',
+                  boxShadow: mode === 'login' ? '0 2px 8px rgba(0, 0, 0, 0.18)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -568,14 +626,14 @@ export default function LandingAuthModalPage() {
               </div>
             )}
 
-            {/* FORM 1: FULL SIGN UP FORM */}
+            {/* FORM 1: FULL SIGN UP FORM WITH 3D HOVER LIFT ON EACH BOX */}
             {mode === 'signup' ? (
               <form onSubmit={handleSignupSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ marginBottom: '4px' }}>
-                  <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>
+                  <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1c1917', margin: '0 0 4px 0' }}>
                     {isHi ? 'किसान पंजीकरण फॉर्म' : 'Farmer Registration Form'}
                   </h2>
-                  <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0 }}>
+                  <p style={{ fontSize: '0.82rem', color: '#6b645b', margin: 0 }}>
                     {isHi 
                       ? 'सटीक कृषि सलाह और व्यक्तिगत रिकॉर्ड के लिए कृपया अपनी सही जानकारी भरें:' 
                       : 'Please provide your farm details for personalized AI recommendations & records:'}
@@ -585,18 +643,11 @@ export default function LandingAuthModalPage() {
                 {/* 1. Name & Email */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'पूरा नाम (Full Name) *' : 'Full Name *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <User size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <User size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="text"
                         name="name"
@@ -604,24 +655,17 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder={isHi ? 'उदा. अभिषेक कुशवाहा' : 'e.g. Abhishek Kushwaha'}
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'ईमेल पता (Email) *' : 'Email Address *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Mail size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Mail size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="email"
                         name="email"
@@ -629,27 +673,20 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder="abhishek@fasalmitra.ai"
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
                 </div>
 
                 {/* 2. Phone & State */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'मोबाइल नंबर (Phone) *' : 'Phone Number *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Phone size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Phone size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="tel"
                         name="phone"
@@ -657,53 +694,39 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder="9876543210"
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'राज्य (State) *' : 'State *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <MapPin size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <MapPin size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <select
                         name="state"
                         value={signupData.state}
                         onChange={handleSignupChange}
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.86rem', background: 'transparent' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.86rem', background: 'transparent', color: '#1c1917' }}
                       >
                         {(isHi ? indianStatesHi : indianStatesEn).map((st, i) => (
                           <option key={i} value={st}>{st}</option>
                         ))}
                       </select>
-                    </div>
+                    </HoverInputBox>
                   </div>
                 </div>
 
                 {/* 3. City/District & Village/Location */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'जिला / शहर (City / District) *' : 'City / District *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Compass size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Compass size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="text"
                         name="city"
@@ -711,24 +734,17 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder={isHi ? 'उदा. वाराणसी / लखनऊ / पटना' : 'e.g. Varanasi / Lucknow / Patna'}
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'गाँव / तहसील (Village / Location) *' : 'Village / Location *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <MapPin size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <MapPin size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="text"
                         name="village"
@@ -736,27 +752,20 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder={isHi ? 'उदा. रोहनिया / रामगढ़' : 'e.g. Rohaniya / Ramgarh'}
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
                 </div>
 
                 {/* 4. Farm Area & Soil Type */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'खेत का रकबा (Area in Acres)' : 'Farm Area (Acres)'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Layers size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Layers size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type="number"
                         step="0.5"
@@ -764,53 +773,39 @@ export default function LandingAuthModalPage() {
                         value={signupData.area_acres}
                         onChange={handleSignupChange}
                         placeholder="3.5"
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'मिट्टी का प्रकार (Soil Type)' : 'Soil Type'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Sprout size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Sprout size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <select
                         name="soil_type"
                         value={signupData.soil_type}
                         onChange={handleSignupChange}
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.86rem', background: 'transparent' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.86rem', background: 'transparent', color: '#1c1917' }}
                       >
                         {(isHi ? soilTypesHi : soilTypesEn).map((st, i) => (
                           <option key={i} value={st}>{st}</option>
                         ))}
                       </select>
-                    </div>
+                    </HoverInputBox>
                   </div>
                 </div>
 
                 {/* 5. Password & Confirm Password */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'पासवर्ड (Password) *' : 'Password *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Lock size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Lock size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type={showPassword ? 'text' : 'password'}
                         name="password"
@@ -818,24 +813,17 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder={isHi ? 'पासवर्ड बनाएं' : 'Create password'}
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
-                    </div>
+                    </HoverInputBox>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
+                    <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#332f2c' }}>
                       {isHi ? 'पासवर्ड पुष्टि (Confirm) *' : 'Confirm Password *'}
                     </label>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      border: '1.5px solid #cbd5e1',
-                      borderRadius: '10px',
-                      padding: '4px 12px',
-                      background: '#ffffff'
-                    }}>
-                      <Lock size={16} color="#64748b" style={{ marginRight: '8px' }} />
+                    <HoverInputBox>
+                      <Lock size={16} color="#78716c" style={{ marginRight: '8px', flexShrink: 0 }} />
                       <input
                         type={showPassword ? 'text' : 'password'}
                         name="confirmPassword"
@@ -843,20 +831,20 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         placeholder={isHi ? 'पासवर्ड पुनः दर्ज करें' : 'Re-enter password'}
                         required
-                        style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
+                        style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.88rem', background: 'transparent', color: '#1c1917' }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: '2px' }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#78716c', padding: '2px' }}
                       >
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
-                    </div>
+                    </HoverInputBox>
                   </div>
                 </div>
 
-                {/* Submit Signup Button */}
+                {/* Submit Signup Button with 3D Elevation */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -874,11 +862,19 @@ export default function LandingAuthModalPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 4px 12px rgba(22, 163, 74, 0.3)',
-                    transition: 'background-color 0.2s ease'
+                    boxShadow: '0 4px 14px rgba(22, 163, 74, 0.28)',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#15803d'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#16a34a'}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#15803d';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 22px rgba(22, 163, 74, 0.38)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = '#16a34a';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(22, 163, 74, 0.28)';
+                  }}
                 >
                   <span>
                     {loading 
@@ -889,13 +885,13 @@ export default function LandingAuthModalPage() {
                 </button>
               </form>
             ) : (
-              /* FORM 2: LOGIN FORM */
+              /* FORM 2: LOGIN FORM WITH 3D HOVER LIFT */
               <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ marginBottom: '8px' }}>
-                  <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>
+                  <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1c1917', margin: '0 0 4px 0' }}>
                     {isHi ? 'किसान लॉगिन (Farmer Login)' : 'Farmer Login'}
                   </h2>
-                  <p style={{ fontSize: '0.84rem', color: '#64748b', margin: 0 }}>
+                  <p style={{ fontSize: '0.84rem', color: '#6b645b', margin: 0 }}>
                     {isHi 
                       ? 'अपने पंजीकृत ईमेल या फ़ोन नंबर और पासवर्ड से पोर्टल में प्रवेश करें:' 
                       : 'Sign in with your registered email or mobile number and password:'}
@@ -903,58 +899,44 @@ export default function LandingAuthModalPage() {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155' }}>
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#332f2c' }}>
                     {isHi ? 'ईमेल अथवा मोबाइल नंबर (Email / Phone) *' : 'Email or Phone Number *'}
                   </label>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: '1.5px solid #cbd5e1',
-                    borderRadius: '12px',
-                    padding: '6px 14px',
-                    background: '#ffffff'
-                  }}>
-                    <Mail size={18} color="#64748b" style={{ marginRight: '10px' }} />
+                  <HoverInputBox>
+                    <Mail size={18} color="#78716c" style={{ marginRight: '10px', flexShrink: 0 }} />
                     <input
                       type="text"
                       value={loginIdentifier}
                       onChange={(e) => setLoginIdentifier(e.target.value)}
                       placeholder={isHi ? 'abhishek@fasalmitra.ai या 9876543210' : 'abhishek@fasalmitra.ai or 9876543210'}
                       required
-                      style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.92rem' }}
+                      style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.92rem', background: 'transparent', color: '#1c1917' }}
                     />
-                  </div>
+                  </HoverInputBox>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155' }}>
+                  <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#332f2c' }}>
                     {isHi ? 'पासवर्ड (Password) *' : 'Password *'}
                   </label>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: '1.5px solid #cbd5e1',
-                    borderRadius: '12px',
-                    padding: '6px 14px',
-                    background: '#ffffff'
-                  }}>
-                    <Lock size={18} color="#64748b" style={{ marginRight: '10px' }} />
+                  <HoverInputBox>
+                    <Lock size={18} color="#78716c" style={{ marginRight: '10px', flexShrink: 0 }} />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
                       placeholder="••••••••••••"
                       required
-                      style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.92rem' }}
+                      style={{ border: 'none', outline: 'none', width: '100%', padding: '7px 0', fontSize: '0.92rem', background: 'transparent', color: '#1c1917' }}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: '4px' }}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#78716c', padding: '4px' }}
                     >
                       {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
-                  </div>
+                  </HoverInputBox>
                 </div>
 
                 <button
@@ -974,11 +956,19 @@ export default function LandingAuthModalPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 4px 12px rgba(24, 24, 27, 0.25)',
-                    transition: 'background-color 0.2s ease'
+                    boxShadow: '0 4px 14px rgba(24, 24, 27, 0.22)',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#27272a'}
-                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#18181b'}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#27272a';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 22px rgba(24, 24, 27, 0.32)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = '#18181b';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(24, 24, 27, 0.22)';
+                  }}
                 >
                   <span>
                     {loading 
@@ -994,25 +984,27 @@ export default function LandingAuthModalPage() {
             <div style={{
               margin: '22px 0 16px 0',
               paddingTop: '16px',
-              borderTop: '1.5px dashed #e2e8f0',
+              borderTop: '1.5px dashed #ded4c5',
               textAlign: 'center'
             }}>
               <div style={{
                 fontSize: '0.8rem',
-                color: '#64748b',
+                color: '#6b645b',
                 fontWeight: 600,
                 marginBottom: '10px'
               }}>
                 {isHi ? 'या बिना लॉगिन किए सीधे इस्तेमाल करें:' : 'Or explore immediately without signing in:'}
               </div>
 
-              {/* GUEST MODE CARD / BUTTON */}
+              {/* GUEST MODE CARD / BUTTON WITH ELEVATED HOVER */}
               <button
                 type="button"
                 onClick={handleGuestExplore}
+                onMouseEnter={() => setGuestHovered(true)}
+                onMouseLeave={() => setGuestHovered(false)}
                 style={{
                   width: '100%',
-                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  background: 'linear-gradient(135deg, #f7fee7 0%, #edfce4 100%)',
                   border: '2px solid #86efac',
                   borderRadius: '14px',
                   padding: '12px 18px',
@@ -1020,11 +1012,12 @@ export default function LandingAuthModalPage() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 2px 8px rgba(34, 197, 94, 0.15)'
+                  transform: guestHovered ? 'translateY(-3px)' : 'translateY(0)',
+                  boxShadow: guestHovered 
+                    ? '0 12px 28px -4px rgba(34, 197, 94, 0.25), 0 4px 10px -2px rgba(45, 35, 20, 0.08)'
+                    : '0 2px 8px rgba(34, 197, 94, 0.12)',
+                  transition: 'all 0.24s cubic-bezier(0.16, 1, 0.3, 1)'
                 }}
-                onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-                onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', textAlign: 'left' }}>
                   <div style={{
@@ -1036,7 +1029,8 @@ export default function LandingAuthModalPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0
+                    flexShrink: 0,
+                    boxShadow: '0 2px 6px rgba(34, 197, 94, 0.3)'
                   }}>
                     <Sprout size={20} />
                   </div>
@@ -1074,7 +1068,7 @@ export default function LandingAuthModalPage() {
               justifyContent: 'space-between',
               alignItems: 'center',
               fontSize: '0.8rem',
-              color: '#64748b',
+              color: '#78716c',
               marginTop: '8px'
             }}>
               <span>{isHi ? '🛡️ डेटा 100% सुरक्षित एवं स्थानीय' : '🛡️ 100% Secure & Local Data'}</span>

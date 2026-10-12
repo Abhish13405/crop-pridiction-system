@@ -5,12 +5,12 @@
    ========================================================================== */
 
 :root {
-  /* Colors */
-  --bg-page: #FBFBFA;
-  --bg-surface: #FFFFFF;
-  --bg-surface-sage: #EFF4EF;
-  --bg-surface-subtle: #F4F7F3;
-  --bg-hover: #E2EBE2;
+  /* Colors - Warm Organic Agricultural Theme */
+  --bg-page: #FAF7F2;
+  --bg-surface: #FDFBF7;
+  --bg-surface-sage: #EDF3EC;
+  --bg-surface-subtle: #F6F1E8;
+  --bg-hover: #E4ECE3;
 
   --primary-forest: #1B4332;
   --primary-forest-hover: #143326;
@@ -26,11 +26,11 @@
   --text-muted: #56675C;
   --text-light: #7A8B80;
 
-  --border-subtle: #D8E2D8;
-  --border-card: #CBD7CB;
+  --border-subtle: #DDE5DC;
+  --border-card: #E2D9CB;
   --border-focus: #1B4332;
 
-  --status-success-bg: #E8F5E9;
+  --status-success-bg: #EAF6EB;
   --status-success-text: #1E4620;
   --status-success-border: #A5D6A7;
 
@@ -38,7 +38,7 @@
   --status-warning-text: #6A4E00;
   --status-warning-border: #FFE082;
 
-  --status-info-bg: #E3F2FD;
+  --status-info-bg: #E8F1F8;
   --status-info-text: #0D47A1;
   --status-info-border: #90CAF9;
 
@@ -59,9 +59,10 @@
   --radius-lg: 14px;
   --radius-pill: 999px;
 
-  /* Elevation (Calm, non-glowing subtle shadows) */
-  --shadow-subtle: 0 1px 3px rgba(27, 67, 50, 0.05);
-  --shadow-card: 0 2px 6px rgba(27, 67, 50, 0.06), 0 1px 2px rgba(27, 67, 50, 0.04);
+  /* Elevation (Warm, tactile 3D hover shadows) */
+  --shadow-subtle: 0 1px 3px rgba(45, 35, 20, 0.05);
+  --shadow-card: 0 2px 8px rgba(45, 35, 20, 0.06), 0 1px 3px rgba(45, 35, 20, 0.04);
+  --shadow-hover: 0 10px 24px -3px rgba(45, 35, 20, 0.12), 0 4px 8px -2px rgba(45, 35, 20, 0.06);
 }
 
 /* Reset & Base Setup */
@@ -297,6 +298,13 @@ button, input, select, textarea {
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   box-shadow: var(--shadow-card);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.fm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: #cbbeab;
 }
 
 .fm-card-header {
