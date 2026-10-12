@@ -1,0 +1,37 @@
+﻿state,state_code,district,mandi,commodity,variety,min_price,max_price,modal_price,arrival_date,trend,change_pct
+उत्तर प्रदेश (Uttar Pradesh),UP,वाराणसी (Varanasi),वाराणसी राजातालाब मंडी (Varanasi Rajatalab Mandi),गेहूँ (Wheat),Dara / Sharbati,2350,2580,2460,12-10-2026,up,+1.8%
+उत्तर प्रदेश (Uttar Pradesh),UP,वाराणसी (Varanasi),वाराणसी राजातालाब मंडी (Varanasi Rajatalab Mandi),धान (Paddy/Rice),Basmati Common,2200,2550,2380,12-10-2026,up,+2.1%
+उत्तर प्रदेश (Uttar Pradesh),UP,वाराणसी (Varanasi),वाराणसी पहड़िया मंडी (Varanasi Pahariya Mandi),सरसों (Mustard),Yellow / Black Hybrid,5300,5850,5680,12-10-2026,up,+0.9%
+उत्तर प्रदेश (Uttar Pradesh),UP,वाराणसी (Varanasi),वाराणसी पहड़िया मंडी (Varanasi Pahariya Mandi),आलू (Potato),Desi / Jyoti,1350,1850,1600,12-10-2026,down,-1.5%
+उत्तर प्रदेश (Uttar Pradesh),UP,वाराणसी (Varanasi),वाराणसी राजातालाब मंडी (Varanasi Rajatalab Mandi),टमाटर (Tomato),Hybrid Red,1600,2300,1950,12-10-2026,up,+3.4%
+उत्तर प्रदेश (Uttar Pradesh),UP,लखनऊ (Lucknow),लखनऊ दुबग्गा मंडी (Lucknow Dubagga Mandi),गेहूँ (Wheat),Desi Sharbati,2320,2550,2440,12-10-2026,stable,0.0%
+उत्तर प्रदेश (Uttar Pradesh),UP,लखनऊ (Lucknow),लखनऊ सीतापुर रोड मंडी (Lucknow Sitapur Road),सरसों (Mustard),Bold Black,5250,5780,5600,12-10-2026,up,+1.2%
+उत्तर प्रदेश (Uttar Pradesh),UP,कानपुर (Kanpur),कानपुर नौबस्ता मंडी (Kanpur Naubasta Mandi),चना (Gram/Chickpea),Desi / Chana,5650,6250,5980,12-10-2026,up,+1.5%
+उत्तर प्रदेश (Uttar Pradesh),UP,कानपुर (Kanpur),कानपुर नौबस्ता मंडी (Kanpur Naubasta Mandi),मक्का (Maize),Yellow Hybrid,2100,2380,2240,12-10-2026,stable,+0.4%
+उत्तर प्रदेश (Uttar Pradesh),UP,प्रयागराज (Prayagraj),प्रयागराज मुंडेरा मंडी (Prayagraj Mundera Mandi),गेहूँ (Wheat),Lokwan / Dara,2300,2520,2420,12-10-2026,up,+1.1%
+उत्तर प्रदेश (Uttar Pradesh),UP,गोरखपुर (Gorakhpur),गोरखपुर महेवा मंडी (Gorakhpur Mahewa Mandi),धान (Paddy/Rice),Mansuri / Common,2150,2420,2280,12-10-2026,up,+0.8%
+उत्तर प्रदेश (Uttar Pradesh),UP,आगरा (Agra),आगra फतेहाबाद मंडी (Agra Fatehabad Mandi),आलू (Potato),Kufri Bahar,1250,1750,1520,12-10-2026,down,-2.1%
+मध्य प्रदेश (Madhya Pradesh),MP,इंदौर (Indore),इंदौर चोइथराम मंडी (Indore Choithram Mandi),सोयाबीन (Soybean),Yellow JS-9560,4450,4980,4720,12-10-2026,up,+2.4%
+मध्य प्रदेश (Madhya Pradesh),MP,इंदौर (Indore),इंदौर चोइथराम मंडी (Indore Choithram Mandi),गेहूँ (Wheat),Mill Quality / Sharbati,2450,2900,2680,12-10-2026,up,+1.6%
+मध्य प्रदेश (Madhya Pradesh),MP,उज्जैन (Ujjain),उज्जैन कृषि उपज मंडी (Ujjain APMC),चना (Gram/Chickpea),Dollar Chana / Desi,5800,6450,6120,12-10-2026,up,+2.0%
+मध्य प्रदेश (Madhya Pradesh),MP,नीमच (Neemuch),नीमच कृषि उपज मंडी (Neemuch APMC),लहसुन (Garlic),Desi / Ooty,8500,14200,11400,12-10-2026,up,+4.1%
+मध्य प्रदेश (Madhya Pradesh),MP,भोपाल (Bhopal),भोपाल करोंद मंडी (Bhopal Karond Mandi),सोयाबीन (Soybean),Yellow Standard,4400,4920,4680,12-10-2026,stable,+0.2%
+पंजाब (Punjab),PB,लुधियाना (Ludhiana),खन्ना एशिया सबसे बड़ी मंडी (Khanna Asia's Largest APMC),गेहूँ (Wheat),HD-3086 / Sharbati,2375,2620,2490,12-10-2026,up,+1.3%
+पंजाब (Punjab),PB,लुधियाना (Ludhiana),खन्ना एशिया सबसे बड़ी मंडी (Khanna Asia's Largest APMC),धान (Paddy/Rice),PR-126 / Basmati 1121,2350,3850,3100,12-10-2026,up,+2.7%
+पंजाब (Punjab),PB,बठिंडा (Bathinda),बठिंडा मुख्य मंडी (Bathinda Main APMC),कपास (Cotton),BT Cotton Hybrid,6900,7750,7420,12-10-2026,up,+1.9%
+हरियाणा (Haryana),HR,करनाल (Karnal),करनाल नई अनाज मंडी (Karnal New Grain Market),धान (Paddy/Rice),Basmati Pusa 1509,2600,3650,3220,12-10-2026,up,+1.8%
+हरियाणा (Haryana),HR,हिसार (Hisar),हिसार अनाज मंडी (Hisar Grain Market),सरसों (Mustard),Black Sarson,5350,5900,5710,12-10-2026,up,+1.1%
+हरियाणा (Haryana),HR,सिरसा (Sirsa),सिरसा कॉटन मंडी (Sirsa Cotton Market),कपास (Cotton),Desi / BT Cotton,7100,7880,7550,12-10-2026,up,+2.2%
+राजस्थान (Rajasthan),RJ,जयपुर (Jaipur),जयपुर मुहाना मंडी (Jaipur Muhana Mandi),सरसों (Mustard),Desi / Hybrid,5400,5980,5740,12-10-2026,up,+1.4%
+राजस्थान (Rajasthan),RJ,जयपुर (Jaipur),जयपुर मुहाना मंडी (Jaipur Muhana Mandi),बाजरा (Pearl Millet/Bajra),Desi Bajra,2350,2650,2520,12-10-2026,stable,+0.5%
+राजस्थान (Rajasthan),RJ,कोटा (Kota),कोटा भामाशाह मंडी (Kota Bhamashah APMC),सोयाबीन (Soybean),Yellow Cleaned,4480,4950,4710,12-10-2026,up,+1.6%
+राजस्थान (Rajasthan),RJ,श्रीगंगानगर (Sri Ganganagar),श्रीगंगानगर अनाज मंडी (Sri Ganganagar APMC),गेहूँ (Wheat),Dara 148,2380,2590,2480,12-10-2026,up,+0.7%
+महाराष्ट्र (Maharashtra),MH,नासिक (Nashik),लासलगांव प्याज मंडी (Lasalgaon Onion Mandi),प्याज (Onion),Red Garwa / Pol,1900,2950,2420,12-10-2026,up,+3.8%
+महाराष्ट्र (Maharashtra),MH,पुणे (Pune),पुणे गुलटेकड़ी मंडी (Pune Gultekdi Market),टमाटर (Tomato),Vaibhav / Hybrid,1500,2400,1980,12-10-2026,up,+2.2%
+महाराष्ट्र (Maharashtra),MH,नागपुर (Nagpur),नागपुर कलमना मंडी (Nagpur Kalamna Mandi),कपास (Cotton),H-4 / BT Cotton,7000,7750,7450,12-10-2026,up,+1.7%
+महाराष्ट्र (Maharashtra),MH,नागपुर (Nagpur),नागपुर कलमना मंडी (Nagpur Kalamna Mandi),सोयाबीन (Soybean),Black / Yellow Standard,4420,4900,4690,12-10-2026,stable,0.0%
+बिहार (Bihar),BR,पटना (Patna),पटना मीठापुर मंडी (Patna Mithapur Mandi),गेहूँ (Wheat),Desi / Common,2300,2510,2410,12-10-2026,up,+0.9%
+बिहार (Bihar),BR,मुजफ्फरपुर (Muzaffarpur),मुजफ्फरपुर बाजार समिति (Muzaffarpur Bazar Samiti),मक्का (Maize),Desi Yellow,2080,2350,2210,12-10-2026,up,+1.2%
+बिहार (Bihar),BR,पूर्णिया (Purnia),पूर्णिया गुलाबबाग मंडी (Purnia Gulabbagh Mandi),मक्का (Maize),High Starch Hybrid,2150,2420,2290,12-10-2026,up,+2.5%
+गुजरात (Gujarat),GJ,राजकोट (Rajkot),राजकोट बेदी यार्ड मंडी (Rajkot Bedi Yard APMC),कपास (Cotton),Shankar-6 / BT Cotton,7150,7920,7610,12-10-2026,up,+2.0%
+गुजरात (Gujarat),GJ,उंझा (Unjha),उंझा जीरा मंडी (Unjha Cumin APMC),जीरा (Cumin/Jeera),Machine Cleaned Extra Bold,22000,28500,25400,12-10-2026,up,+3.1%
