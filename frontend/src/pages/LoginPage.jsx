@@ -4,7 +4,7 @@ import { Sprout, Phone, User, ArrowRight, ShieldCheck, Globe, CheckCircle2 } fro
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
-  const { login, lang, toggleLang } = useAuth();
+  const { login, guestLogin, lang, toggleLang } = useAuth();
   const isHi = lang === 'hi';
   const navigate = useNavigate();
   const location = useLocation();
@@ -98,11 +98,23 @@ export default function LoginPage() {
           <button
             type="submit"
             className="fm-btn fm-btn-primary"
-            style={{ width: '100%', justifyContent: 'center', minHeight: '48px', fontSize: '1rem' }}
+            style={{ width: '100%', justifyContent: 'center', minHeight: '48px', fontSize: '1rem', marginBottom: '12px' }}
             disabled={loading}
           >
             <span>{loading ? (isHi ? 'प्रवेश हो रहा है...' : 'Signing in...') : (isHi ? 'डैशबोर्ड में प्रवेश करें' : 'Enter Dashboard')}</span>
             <ArrowRight size={18} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              guestLogin();
+              navigate(from, { replace: true });
+            }}
+            className="fm-btn fm-btn-outline"
+            style={{ width: '100%', justifyContent: 'center', minHeight: '44px', fontSize: '0.92rem', borderColor: '#22c55e', color: '#166534' }}
+          >
+            <span>{isHi ? '🌾 अतिथि मोड (Continue as Guest)' : 'Continue as Guest'}</span>
           </button>
         </form>
 
@@ -119,7 +131,7 @@ export default function LoginPage() {
           gap: '8px'
         }}>
           <CheckCircle2 size={16} />
-          <span>{isHi ? 'सरल व निःशुल्क सेवा • कोई पासवर्ड याद रखने की जरूरत नहीं' : 'Free & Simple • No password hassle for farmers'}</span>
+          <span>{isHi ? 'अतिथि मोड में बिना लॉगिन के सभी AI फीचर्स उपलब्ध हैं' : 'All AI features accessible without login in Guest Mode'}</span>
         </div>
 
         {/* Bottom Link to Public Home & Language switch */}

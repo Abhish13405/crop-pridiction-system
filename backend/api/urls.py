@@ -7,6 +7,7 @@ from .views import (
     PlantDiseaseDetectionView,
     HistoryListView,
     SoilHealthInterpretView,
+    FarmerRegisterView,
     FarmerLoginView,
     FarmerLogoutView,
     FarmerStatusView,
@@ -16,6 +17,7 @@ from .views import (
 
 urlpatterns = [
     path('health/', HealthCheckView.as_view(), name='health_check'),
+    path('auth/register/', FarmerRegisterView.as_view(), name='farmer_register'),
     path('auth/login/', FarmerLoginView.as_view(), name='farmer_login'),
     path('auth/logout/', FarmerLogoutView.as_view(), name='farmer_logout'),
     path('auth/user/', FarmerStatusView.as_view(), name='farmer_status'),

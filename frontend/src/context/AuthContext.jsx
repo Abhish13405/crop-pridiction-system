@@ -41,12 +41,54 @@ export function AuthProvider({ children }) {
     });
   };
 
-  const login = async (phone = '9876543210', name = 'रामकुमार सिंह') => {
+  const register = async (formData) => {
+    try {
+      const res = await fetch('/api/auth/register/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (data.success && data.user) {
+        localStorage.setItem('fasalmitra_registered_user', JSON.stringify(data.user));
+        return { success: true, message: data.message, user: data.user };
+      } else {
+        return { success: false, error: data.error || 'पंजीकरण में त्रुटि आई।' };
+      }
+    } catch (err) {
+      console.warn('Offline registration fallback:', err);
+      // Offline fallback
+      const offlineUser = {
+        name: formData.name || 'किसान मित्र',
+        email: formData.email || '',
+        phone: formData.phone || '9876543210',
+        state: formData.state || 'उत्तर प्रदेश (Uttar Pradesh)',
+        city: formData.city || 'वाराणसी (Varanasi)',
+        district: formData.city || 'वाराणसी (Varanasi)',
+        village: formData.village || 'रोहनिया',
+        location: `${formData.village || 'ग्रामीण क्षेत्र'}, ${formData.city || 'वाराणसी'}, ${formData.state || 'उत्तर प्रदेश'}`,
+        area_acres: parseFloat(formData.area_acres || 3.0),
+        soil_type: formData.soil_type || 'दोमट मिट्टी (Loamy Soil)',
+        is_authenticated: true
+      };
+      localStorage.setItem('fasalmitra_registered_user', JSON.stringify(offlineUser));
+      return { success: true, message: 'पंजीकरण सफल (लोकल मोड)', user: offlineUser };
+    }
+  };
+
+  const login = async (credentials = {}) => {
+    let payload = {};
+    if (typeof credentials === 'string') {
+      payload = { phone: credentials, name: 'रामकुमार सिंह' };
+    } else {
+      payload = credentials;
+    }
+
     try {
       const res = await fetch('/api/auth/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, name })
+        body: JSON.stringify(payload)
       });
       const data = await res.json();
       if (data.success && data.user) {
@@ -55,8 +97,38 @@ export function AuthProvider({ children }) {
       }
     } catch (err) {
       console.warn('Using offline farmer login credentials:', err);
+      // Check if registered user exists locally
+      const registered = localStorage.getItem('fasalmitra_registered_user');
+      if (registered) {
+        try {
+          const regUser = JSON.parse(registered);
+          setUser(regUser);
+          localStorage.setItem('fasalmitra_user', JSON.stringify(regUser));
+        } catch (e) {}
+      }
     }
     setIsAuthenticated(true);
+    localStorage.setItem('fasalmitra_auth', 'true');
+  };
+
+  const guestLogin = () => {
+    const guestUser = {
+      name: 'अतिथि किसान (Guest Farmer)',
+      email: 'guest@fasalmitra.ai',
+      phone: '9999999999',
+      state: 'उत्तर प्रदेश (Uttar Pradesh)',
+      district: 'वाराणसी (Varanasi)',
+      city: 'वाराणसी (Varanasi)',
+      village: 'मॉडल कृषि फार्म (Model Farm)',
+      location: 'वाराणसी कृषि केंद्र, उत्तर प्रदेश',
+      area_acres: 3.5,
+      soil_type: 'दोमट मिट्टी (Alluvial Loam)',
+      isGuest: true,
+      is_authenticated: true
+    };
+    setUser(guestUser);
+    setIsAuthenticated(true);
+    localStorage.setItem('fasalmitra_user', JSON.stringify(guestUser));
     localStorage.setItem('fasalmitra_auth', 'true');
   };
 
@@ -71,7 +143,16 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, lang, toggleLang, login, logout }}>
+    <AuthContext.Provider value={{ 
+      isAuthenticated, 
+      user, 
+      lang, 
+      toggleLang, 
+      register, 
+      login, 
+      guestLogin, 
+      logout 
+    }}>
       {children}
     </AuthContext.Provider>
   );
