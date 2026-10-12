@@ -1159,3 +1159,519 @@ button, input, select, textarea {
   }
 }
 
+/* ==========================================================================
+   MANDI BHAV (LIVE MARKET RATES) MODERN UI SYSTEM
+   ========================================================================== */
+
+.fm-mandi-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* 1. Hero Banner */
+.fm-mandi-hero {
+  background: linear-gradient(135deg, #0e291c 0%, #1b4332 50%, #295740 100%);
+  color: #FFFFFF;
+  border-radius: 24px;
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(27, 67, 50, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fm-mandi-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+}
+
+.fm-mandi-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #D4EDDA;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.fm-mandi-hero h1 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.fm-mandi-hero p {
+  color: #E2ECE5;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.fm-mandi-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.fm-mandi-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #D8EAD9;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* 2. Ticker Bar */
+.fm-mandi-ticker {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.fm-mandi-ticker-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--primary-forest);
+  white-space: nowrap;
+}
+
+.fm-mandi-ticker-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.fm-mandi-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-surface-sage);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.fm-mandi-ticker-item:hover {
+  background-color: #E2EBE2;
+  border-color: var(--accent-sage);
+}
+
+/* 3. Kisan Calculator */
+.fm-mandi-calc {
+  background: linear-gradient(135deg, #FFFDF8 0%, #FFF9F0 100%);
+  border: 1px solid #EEDBBE;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(183, 138, 82, 0.08);
+}
+
+.fm-mandi-calc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid #F0DFCA;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .fm-mandi-calc-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.fm-mandi-calc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .fm-mandi-calc-grid {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+.fm-mandi-calc-input-box {
+  background-color: #FFFFFF;
+  border: 1px solid #EEDBBE;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fm-mandi-calc-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .fm-mandi-calc-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.fm-mandi-result-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-subtle);
+}
+
+.fm-mandi-result-card-profit {
+  background: linear-gradient(135deg, #1B4332 0%, #295740 100%);
+  color: #FFFFFF;
+  border: 1px solid #143326;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+}
+
+/* 4. Category Pills */
+.fm-mandi-cats {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.fm-mandi-cat-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-card);
+  background-color: var(--bg-surface);
+  color: var(--text-body);
+}
+
+.fm-mandi-cat-btn:hover {
+  background-color: var(--bg-surface-sage);
+}
+
+.fm-mandi-cat-btn.active {
+  background-color: var(--primary-forest);
+  color: #FFFFFF;
+  border-color: var(--primary-forest);
+  box-shadow: 0 2px 8px rgba(27, 67, 50, 0.2);
+}
+
+/* 5. Filter Toolbar */
+.fm-mandi-filters {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fm-mandi-filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.fm-mandi-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fm-mandi-field label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.fm-mandi-field select,
+.fm-mandi-field input {
+  padding: 10px 14px;
+  border: 1px solid var(--border-card);
+  border-radius: 10px;
+  background-color: var(--bg-page);
+  font-size: 0.9rem;
+  color: var(--text-main);
+  outline: none;
+  font-weight: 500;
+}
+
+.fm-mandi-field select:focus,
+.fm-mandi-field input:focus {
+  border-color: var(--primary-forest);
+  box-shadow: 0 0 0 2px rgba(27, 67, 50, 0.1);
+}
+
+/* 6. Mandi Cards Grid */
+.fm-mandi-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 20px;
+}
+
+.fm-mandi-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
+  transition: all 0.2s ease;
+}
+
+.fm-mandi-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-sage);
+  box-shadow: 0 8px 20px rgba(27, 67, 50, 0.08);
+}
+
+.fm-mandi-card.active {
+  border-color: var(--primary-forest);
+  box-shadow: 0 0 0 2px rgba(27, 67, 50, 0.2);
+}
+
+.fm-mandi-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fm-mandi-badge-loc {
+  display: inline-block;
+  background-color: var(--bg-surface-sage);
+  color: var(--primary-forest);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.fm-mandi-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.35;
+}
+
+.fm-mandi-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.fm-mandi-trend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.fm-mandi-trend-up {
+  background-color: #E8F5E9;
+  color: #1B5E20;
+}
+
+.fm-mandi-trend-down {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+.fm-mandi-trend-stable {
+  background-color: #F5F5F5;
+  color: #616161;
+}
+
+.fm-mandi-commodity-box {
+  background-color: var(--bg-surface-sage);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.fm-mandi-commodity-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary-forest);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fm-mandi-rates-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.fm-mandi-rate-col label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.fm-mandi-rate-col span {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: block;
+  margin-top: 2px;
+}
+
+.fm-mandi-rate-modal label {
+  color: var(--primary-forest);
+  font-weight: 800;
+}
+
+.fm-mandi-rate-modal span {
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--primary-forest);
+}
+
+.fm-mandi-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* 7. Table Styling */
+.fm-mandi-table-wrap {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+
+.fm-mandi-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.fm-mandi-table th {
+  background-color: var(--bg-surface-sage);
+  padding: 14px 16px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--primary-forest);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.fm-mandi-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-body);
+}
+
+.fm-mandi-table tr:hover td {
+  background-color: #F8FBF8;
+}
+
+/* 8. Modal Popup */
+.fm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(14, 36, 27, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.fm-modal-box {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-card);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
