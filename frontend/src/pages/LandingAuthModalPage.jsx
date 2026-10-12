@@ -60,8 +60,11 @@ export default function LandingAuthModalPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0c1610',
-      backgroundImage: 'radial-gradient(ellipse at 50% 20%, rgba(30, 80, 50, 0.45) 0%, rgba(10, 20, 15, 0.95) 75%)',
+      backgroundColor: '#07160e',
+      backgroundImage: `linear-gradient(rgba(5, 20, 12, 0.82), rgba(3, 15, 8, 0.90)), url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1920&q=80')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -397,11 +400,11 @@ export default function LandingAuthModalPage() {
           </div>
 
 
-          {/* RIGHT SIDE: Visual Card with Tea Plantation / Lush Greenery & Team Members */}
+          {/* RIGHT SIDE: Visual Card with Authentic Lush Green Agricultural Crop Fields & Team Members */}
           <div style={{
             position: 'relative',
             minHeight: '480px',
-            backgroundImage: `linear-gradient(rgba(10, 30, 18, 0.55), rgba(10, 35, 20, 0.85)), url('https://images.unsplash.com/photo-1544984243-ec57ea16fe25?auto=format&fit=crop&w=1200&q=80')`,
+            backgroundImage: `linear-gradient(rgba(7, 26, 15, 0.45), rgba(4, 20, 10, 0.85)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             display: 'flex',
@@ -411,7 +414,8 @@ export default function LandingAuthModalPage() {
             color: '#ffffff',
             margin: '12px',
             borderRadius: '20px',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.3)'
           }}>
             {/* Top Emblem / Circular Logo (Matching the user screenshot's white badge) */}
             <div style={{
