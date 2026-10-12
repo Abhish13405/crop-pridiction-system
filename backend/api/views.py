@@ -483,38 +483,50 @@ class PlantDiseaseDetectionView(APIView):
                     for _, label, prob in dec_produce:
                         prob_pct = float(prob) * 100
                         l_clean = label.lower()
-                        # If ImageNet has high confidence on a recognized agricultural crop/fruit
-                        if prob_pct > 35.0:
+                        # Expanded recognition for fruits & vegetables in general model
+                        if prob_pct > 20.0:
                             if 'banana' in l_clean:
                                 predicted_class = 'banana'
                                 confidence = round(prob_pct, 2)
                                 break
-                            elif 'lemon' in l_clean:
+                            elif 'lemon' in l_clean or 'orange' in l_clean:
                                 predicted_class = 'Lemon'
-                                confidence = round(prob_pct, 2)
-                                break
-                            elif 'orange' in l_clean:
-                                predicted_class = 'Lemon' # Citrus group
                                 confidence = round(prob_pct, 2)
                                 break
                             elif 'pineapple' in l_clean:
                                 predicted_class = 'pineapple'
                                 confidence = round(prob_pct, 2)
                                 break
-                            elif 'strawberry' in l_clean:
-                                predicted_class = 'Cherry' # Berry group
+                            elif 'strawberry' in l_clean or 'cherry' in l_clean:
+                                predicted_class = 'Cherry'
                                 confidence = round(prob_pct, 2)
                                 break
-                            elif 'cucumber' in l_clean or 'zucchini' in l_clean:
+                            elif 'cucumber' in l_clean or 'zucchini' in l_clean or 'squash' in l_clean:
                                 predicted_class = 'Cucumber'
                                 confidence = round(prob_pct, 2)
                                 break
-                            elif 'bell_pepper' in l_clean:
+                            elif 'bell_pepper' in l_clean or 'pepper' in l_clean:
                                 predicted_class = 'chilli'
                                 confidence = round(prob_pct, 2)
                                 break
                             elif 'corn' in l_clean or 'ear' in l_clean:
                                 predicted_class = 'maize'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'pomegranate' in l_clean:
+                                predicted_class = 'pomegranate'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'fig' in l_clean:
+                                predicted_class = 'fig'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'custard_apple' in l_clean:
+                                predicted_class = 'custard_apple'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'jackfruit' in l_clean:
+                                predicted_class = 'jackfruit'
                                 confidence = round(prob_pct, 2)
                                 break
             except Exception as ens_err:
