@@ -1,144 +1,103 @@
-# 🌾 AgriVision AI - Smart Crop Prediction System
+# 🌱 FasalMitra (AgriVision AI) — Smart Crop Prediction & Agronomic Intelligence System
 
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.18.0-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
-[![Flask](https://img.shields.io/badge/Flask-3.1.3-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![Architecture](https://img.shields.io/badge/Model-MobileNetV2-10B981?style=for-the-badge)](https://keras.io/api/applications/mobilenet/)
-
-AgriVision AI is an intelligent deep learning-based crop and plant identification system built with **MobileNetV2 Transfer Learning**, **TensorFlow**, and a modern **Flask Web Application**. It allows farmers, researchers, and agriculture enthusiasts to upload leaf/crop photos and instantly identify the crop species with high confidence scores and top-3 probability breakdowns.
+An end-to-end Computer Vision & Agronomic Decision Support System engineered for farmers and agricultural researchers. Built with **MobileNetV2 Transfer Learning** (trained on 4,145+ Big Data samples) and **Scikit-Learn Random Forest ML** (99.55% Accuracy on Kaggle benchmark data), served through **Django REST Framework** and a modern **React (Vite) Dashboard**.
 
 ---
 
-## 🌟 Key Features
-
-- 🌿 **30 Supported Crops & Fruits**: Classifies 30 different agricultural crops, fruits, grains, pulses, and spices.
-- ⚡ **MobileNetV2 Transfer Learning**: Pre-trained ImageNet backbone fine-tuned for high feature extraction performance.
-- 🎨 **Modern Glassmorphic Web UI**: Drag-and-drop image upload zone with real-time preview, smooth CSS animations, and dark emerald forest aesthetics.
-- 📊 **Top-3 Probability Breakdown**: Displays AI confidence scores with visual progress bars.
-- 🛠️ **Complete Pipeline Tools**:
-  - `train_model.py`: Automated 2-phase training & fine-tuning script with stratified splits and data augmentation.
-  - `predict.py`: Instant CLI tool for single-image prediction testing.
-  - `app.py`: Flask REST API backend for web integration.
-
----
-
-## 🌾 Supported Crops (30 Classes)
-
-| Fruits & Vegetables | Grains & Cereals | Pulses & Legumes | Spices & Plantation |
-| :--- | :--- | :--- | :--- |
-| Almond, Banana | Rice, Wheat | Gram (Chana) | Cardamom (Elaichi) |
-| Cherry, Lemon | Maize (Makka) | Vigna Radiata (Moong) | Clove (Laung) |
-| Papaya, Pineapple | Jowar | Soyabean | Chilli, Mustard Oil |
-| Cucumber, Tomato | Pearl Millet (Bajra) | - | Fox Nut (Makhana), Coconut |
-| Sunflower | - | - | Cotton, Sugarcane, Tea, Coffee, Tobacco, Olive, Jute |
+## 👥 Project Team & Contributors
+1. **Abhishek Kushwaha** — *Team Lead & Machine Learning Architect*
+   - MobileNetV2 Deep CNN Architecture, Transfer Learning & Optimization
+2. **Jaya Maurya** — *Data Scientist & Dataset Engineering*
+   - 30-Class Agricultural Dataset Cleansing, Augmentation & Stratified Validation
+3. **Aman Gupta** — *Full Stack & Backend Systems*
+   - Django REST Framework APIs, Model Serving, Session Authentication & Data Pipeline
+4. **Mriganka Singh** — *Frontend UI/UX & System Design*
+   - Glassmorphic UI Dashboard, Interactive 5-Stage AI Roadmap & Agronomic Calculators
 
 ---
 
-## 📁 Project Structure
+## 🚀 Core Farmer Features
+
+| # | Feature Module | Technology | Farmer Benefit |
+| :---: | :--- | :--- | :--- |
+| **1** | **Crop Image AI Classifier** | Deep CNN (`MobileNetV2`) | Upload crop/leaf photo to get instant variety identification & confidence breakdown |
+| **2** | **Soil & Climate Recommender** | Random Forest ML (`99.55% Acc`) | Input N-P-K, pH, Rainfall to get best crops + exact Urea, DAP & Potash bag calculation |
+| **3** | **Live Mandi Bhav (बाज़ार दरें)** | Real Market Engine | State, District & Mandi-wise live commodity rates (₹/Qtl) + Kisan Revenue Estimator |
+| **4** | **Pest Defense & Fertilizer Guide** | Agronomic Knowledge Base | Critical threat pests, biological/organic cures (Neem oil, Trichoderma), & NPK schedule |
+| **5** | **Soil Health Card & History** | Django ORM + SQLite | Complete history of soil tests, farm profiles & agronomic recommendations |
+
+---
+
+## 📊 Models & Performance Metrics
+
+### 1. Deep Learning CNN Vision Model (`MobileNetV2`)
+- **Model File**: `crop_model_large_v2.keras`
+- **Class Mapping**: `class_indices_large.json` (30 Agricultural Classes)
+- **Top-3 Categorical Accuracy**: **92.07%**
+
+### 2. Soil-to-Crop Machine Learning Model (`Random Forest`)
+- **Model File**: `soil_crop_rf_model.pkl`
+- **Dataset**: `Crop_recommendation.csv` (2,200 Benchmark Kaggle Samples)
+- **Test Accuracy**: **99.55%**
+- **Parameters**: Nitrogen (N), Phosphorus (P), Potassium (K), Temperature, Humidity, Soil pH, Rainfall
+
+---
+
+## 🛠️ How to Run Locally
+
+### 1. Backend (Django REST API)
+```powershell
+# Activate Virtual Environment
+.\venv\Scripts\Activate.ps1
+
+# Install requirements
+pip install -r requirements.txt
+
+# Run Django Backend Server (Port 8000)
+cd backend
+python manage.py migrate
+python manage.py runserver 8000
+```
+Backend will run at: 👉 **`http://127.0.0.1:8000`**
+
+### 2. Frontend (React + Vite)
+```powershell
+# Open a new terminal and navigate to frontend
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start Vite Development Server (Port 5173)
+npm run dev
+```
+Frontend will run at: 👉 **`http://localhost:5173`**
+
+---
+
+## 📂 Project Directory Structure
 
 ```text
 crop-pridiction-system/
-├── Agricultural-crops/         # Dataset directory containing 30 crop subfolders
-├── static/
-│   ├── css/
-│   │   └── style.css          # Glassmorphism UI Stylesheet
-│   ├── js/
-│   │   └── main.js           # AJAX & Interactive JS Logic
-│   └── uploads/               # Temporary uploaded images for analysis
-├── templates/
-│   └── index.html             # Main Web Dashboard Template
-├── ap.ipynb                    # Jupyter Notebook training pipeline
-├── app.py                      # Flask Web Server & API backend
-├── train_model.py              # Model training script
-├── predict.py                  # CLI single image prediction tester
-├── class_indices.json          # Crop label index mapping file
-├── crop_recommendation_model.keras  # Trained MobileNetV2 model weights
-├── requirements.txt            # Python dependencies for deployment
-└── README.md                   # Project documentation
+├── backend/                        # Django REST API Backend
+│   ├── api/                        # Views, Models, Serializers, URLs
+│   │   ├── views.py                # ML Model Serving & Mandi Bhav Views
+│   │   ├── models.py               # Farm & CropRecommendationRecord ORM
+│   │   └── urls.py                 # RESTful Endpoints
+│   ├── fasalmitra/                 # Django Settings & WSGI/ASGI
+│   └── manage.py                   # Django CLI
+├── frontend/                       # React 18 + Vite Frontend Application
+│   ├── src/
+│   │   ├── pages/                  # MandiBhavPage, CropRecommendationPage, etc.
+│   │   ├── components/             # Sidebar, Navbar, DashboardLayout
+│   │   └── context/                # AuthContext (Hindi / English support)
+│   ├── package.json
+│   └── vite.config.js              # Proxy to Django on Port 8000
+├── crop_model_large_v2.keras       # Trained MobileNetV2 CNN Vision Model
+├── soil_crop_rf_model.pkl          # Trained Random Forest Soil Recommender
+├── class_indices_large.json        # 30 Crop Class Labels Map
+├── crop_knowledge.py               # Agronomic Knowledge Base & Fertilizers
+├── Crop_recommendation.csv         # Soil Benchmark Dataset
+├── requirements.txt                # Python Dependencies
+└── README.md
 ```
-
----
-
-## 🚀 Quick Start Guide
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Abhish13405/crop-pridiction-system.git
-cd crop-pridiction-system
-```
-
-### 2. Set Up Virtual Environment
-```bash
-python -m venv venv
-# On Windows PowerShell:
-.\venv\Scripts\Activate.ps1
-# On Linux/macOS:
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 💻 Running the Application
-
-### Option A: Start the Flask Web App
-```bash
-python app.py
-```
-Open your browser and visit: **`http://127.0.0.1:5000`**
-
-### Option B: Test Prediction via Command Line
-```bash
-python predict.py "Agricultural-crops/banana/image (10).jpg"
-```
-
-### Option C: Train the Model from Scratch
-```bash
-python train_model.py
-```
-
----
-
-## 🔌 API Endpoint Documentation
-
-### Predict Crop Endpoint
-- **URL**: `/predict`
-- **Method**: `POST`
-- **Payload**: `multipart/form-data` with key `file` (image file)
-
-#### Sample JSON Response:
-```json
-{
-  "success": true,
-  "predicted_crop": "banana",
-  "confidence": 99.15,
-  "top3": [
-    { "crop": "banana", "confidence": 99.15 },
-    { "crop": "maize", "confidence": 0.45 },
-    { "crop": "jowar", "confidence": 0.25 }
-  ],
-  "image_url": "/static/uploads/sample.jpg"
-}
-```
-
----
-
-## 🧠 Model Training Specifications
-
-- **Base Architecture**: MobileNetV2 (`include_top=False`, ImageNet weights)
-- **Input Shape**: `(224, 224, 3)`
-- **Preprocessing**: `tf.keras.applications.mobilenet_v2.preprocess_input` (scaling to `[-1, 1]`)
-- **Phase 1 Training**: Frozen base model, Adam LR `1e-3` (20 Epochs)
-- **Phase 2 Fine-Tuning**: Unfrozen top 30 layers, Adam LR `1e-5` (15 Epochs)
-- **Callbacks**: `ModelCheckpoint`, `EarlyStopping`, `ReduceLROnPlateau`
-
----
-
-## 👤 Author & Credits
-
-Developed with ❤️ for Smart Agriculture applications.
-- **GitHub**: [@Abhish13405](https://github.com/Abhish13405)

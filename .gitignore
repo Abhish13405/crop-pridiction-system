@@ -1,7 +1,32 @@
+# Python & Virtual Environment
 venv/
+env/
+.env
 __pycache__/
-.ipynb_checkpoints/
-*.pyc
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints/
+
+# Node & Frontend dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.vite/
+
+# Legacy / Unused Models & Data
+crop_recommendation_model.keras
+Agricultural-crops/
+Agricultural-crops-large/
 *.h5
-*.keras
-static/uploads/*
+static/
+
+# Data processing & scratch scripts
+dataset_summary.json
+download_kaggle_large_data.py
+train_large_dataset.py
+train_soil_ml.py
+verify_dataset.py
+
+# OS Files
+.DS_Store
+Thumbs.db
