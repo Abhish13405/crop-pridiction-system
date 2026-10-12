@@ -466,20 +466,81 @@ class PlantDiseaseDetectionView(APIView):
             from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
             img_batch = np.expand_dims(preprocess_input(img_arr), axis=0)
 
-            # 2. Model Prediction
+            # 2. Model Prediction (Crop CNN Model)
             predictions = cnn_model.predict(img_batch, verbose=0)[0]
             top_idx = int(np.argmax(predictions))
             confidence = round(float(predictions[top_idx]) * 100, 2)
             predicted_class = class_indices.get(str(top_idx), "Unknown")
 
+            # Dual-Ensemble: Check ImageNet produce classifier to prevent leaf vs fruit confusion
+            # e.g., A banana fruit image predicts 'banana' with 97%+ in ImageNet but 'sunflower' with ~37% in crop leaf model!
+            try:
+                from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
+                fruit_backbone = FruitDetectionView.get_fruit_model()
+                if fruit_backbone is not None:
+                    raw_produce = fruit_backbone.predict(img_batch, verbose=0)
+                    dec_produce = decode_predictions(raw_produce, top=5)[0]
+                    for _, label, prob in dec_produce:
+                        prob_pct = float(prob) * 100
+                        l_clean = label.lower()
+                        # If ImageNet has high confidence on a recognized agricultural crop/fruit
+                        if prob_pct > 35.0:
+                            if 'banana' in l_clean:
+                                predicted_class = 'banana'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'lemon' in l_clean:
+                                predicted_class = 'Lemon'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'orange' in l_clean:
+                                predicted_class = 'Lemon' # Citrus group
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'pineapple' in l_clean:
+                                predicted_class = 'pineapple'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'strawberry' in l_clean:
+                                predicted_class = 'Cherry' # Berry group
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'cucumber' in l_clean or 'zucchini' in l_clean:
+                                predicted_class = 'Cucumber'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'bell_pepper' in l_clean:
+                                predicted_class = 'chilli'
+                                confidence = round(prob_pct, 2)
+                                break
+                            elif 'corn' in l_clean or 'ear' in l_clean:
+                                predicted_class = 'maize'
+                                confidence = round(prob_pct, 2)
+                                break
+            except Exception as ens_err:
+                pass
+
             # Top 3 predictions
             top3_indices = np.argsort(predictions)[-3:][::-1]
             top3_results = []
-            for idx in top3_indices:
+            
+            # If ensemble corrected the top class, ensure it heads top3
+            if predicted_class not in [class_indices.get(str(i)) for i in top3_indices]:
                 top3_results.append({
-                    "name": class_indices.get(str(idx), "Unknown"),
-                    "confidence": round(float(predictions[idx]) * 100, 2)
+                    "name": predicted_class,
+                    "confidence": confidence
                 })
+                for idx in top3_indices[:2]:
+                    top3_results.append({
+                        "name": class_indices.get(str(idx), "Unknown"),
+                        "confidence": round(float(predictions[idx]) * 100, 2)
+                    })
+            else:
+                for idx in top3_indices:
+                    top3_results.append({
+                        "name": class_indices.get(str(idx), "Unknown"),
+                        "confidence": round(float(predictions[idx]) * 100, 2) if class_indices.get(str(idx)) != predicted_class else max(confidence, round(float(predictions[idx]) * 100, 2))
+                    })
 
             # 3. Check Uncertainty
             is_uncertain = confidence < 48.0
