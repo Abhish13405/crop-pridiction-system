@@ -25,6 +25,7 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
   const lang = propLang || authLang || 'hi';
   const isHi = lang === 'hi';
 
+  const [activeTab, setActiveTab] = useState('crop'); // 'crop' | 'fruit'
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedFile) {
-      setError(isHi ? 'कृपया पहले पौधे के पत्ते की तस्वीर चुनें।' : 'Please choose a leaf image first.');
+      setError(isHi ? 'कृपया पहले तस्वीर चुनें।' : 'Please choose an image first.');
       return;
     }
 
@@ -75,8 +76,10 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
+    const endpoint = activeTab === 'fruit' ? '/api/predict-fruit/' : '/api/predict-image/';
+
     try {
-      const response = await fetch('/api/predict-image/', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData
       });
@@ -89,14 +92,14 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
       if (data.success) {
         setResult(data);
       } else {
-        throw new Error(data.error || 'बीमारी की पहचान करने में त्रुटि हुई।');
+        throw new Error(data.error || 'पहचान करने में त्रुटि हुई।');
       }
     } catch (err) {
       console.error('Image prediction error:', err);
       setError(
         isHi
           ? (err.message || 'तस्वीर का विश्लेषण करने में समस्या आई। कृपया पुनः प्रयास करें।')
-          : (err.message || 'Failed to analyze leaf image. Please try again.')
+          : (err.message || 'Failed to analyze image. Please try again.')
       );
     } finally {
       setLoading(false);
@@ -123,13 +126,65 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
           </div>
 
           <h1>
-            {isHi ? '🔬 पौधे की बीमारी व कीट पहचान' : '🔬 Plant Disease & Pest Diagnosis AI'}
+            {activeTab === 'fruit'
+              ? (isHi ? '🍎 फल पहचान व उद्यानिकी एआई' : '🍎 Fruit Recognition & Nutrition AI')
+              : (isHi ? '🔬 पौधे की पत्ती, फसल व कीट पहचान' : '🔬 Plant Leaf & Crop Diagnosis AI')}
           </h1>
           <p>
-            {isHi 
-              ? 'फसल या पत्ते की तस्वीर अपलोड करें। डीप लर्निंग मॉडल बीमारी के धब्बे व कीट के लक्षणों की तुरंत पहचान करेगा और प्रमाणित जैविक उपचार (नीम तेल, ट्राइकोडर्मा) बताएगा।' 
-              : 'Upload a leaf photograph for instant computer vision classification across 30 crops, diagnostic confidence scoring, and biological remedies.'}
+            {activeTab === 'fruit'
+              ? (isHi 
+                  ? 'फल की तस्वीर अपलोड करें। हमारा डीप लर्निंग मॉडल पहचान करेगा कि यह कौन सा फल है (सेब, केला, संतरा, अनार, आम आदि) तथा इसके पोषक तत्व व बाजार भाव बताएगा।'
+                  : 'Upload a fruit photograph to instantly identify fruit variety, nutrition profile, harvest seasonality, and disease care.')
+              : (isHi 
+                  ? 'फसल या पत्ते की तस्वीर अपलोड करें। डीप लर्निंग मॉडल फसल की पहचान करेगा, बीमारी के धब्बे पहचानेगा और प्रमाणित जैविक उपचार बताएगा।' 
+                  : 'Upload a leaf photograph for instant computer vision classification across 30 crops, diagnostic confidence scoring, and biological remedies.')}
           </p>
+
+          {/* Mode Switcher Pills (Crops/Leaves vs Fruits) */}
+          <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              onClick={() => { setActiveTab('crop'); resetForm(); }}
+              style={{
+                padding: '8px 18px',
+                borderRadius: 999,
+                border: 'none',
+                backgroundColor: activeTab === 'crop' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)',
+                color: activeTab === 'crop' ? '#1B4332' : '#FFFFFF',
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <Leaf size={15} />
+              <span>{isHi ? 'फसल व पत्ती पहचान (30 Crops)' : 'Crop & Leaf AI'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setActiveTab('fruit'); resetForm(); }}
+              style={{
+                padding: '8px 18px',
+                borderRadius: 999,
+                border: 'none',
+                backgroundColor: activeTab === 'fruit' ? '#FFFFFF' : 'rgba(255, 255, 255, 0.2)',
+                color: activeTab === 'fruit' ? '#1B4332' : '#FFFFFF',
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <Sparkles size={15} />
+              <span>{isHi ? 'फल पहचान मॉडल (Fruit Recognition)' : 'Fruit AI'}</span>
+            </button>
+          </div>
 
           <div className="fm-mandi-hero-badges">
             <div className="fm-mandi-hero-tag">
@@ -286,11 +341,16 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid var(--border-subtle)', paddingBottom: 16, marginBottom: 18, flexWrap: 'wrap', gap: 12 }}>
               <div>
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent-sage)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {isHi ? 'एआई निदान रिपोर्ट (Diagnosis Report)' : 'AI Diagnosis Report'}
+                  {activeTab === 'fruit' ? (isHi ? '🍎 फल पहचान रिपोर्ट (Fruit AI Report)' : 'Fruit AI Report') : (isHi ? 'एआई निदान रिपोर्ट (Diagnosis Report)' : 'AI Diagnosis Report')}
                 </span>
                 <h2 style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--primary-forest)', marginTop: 2 }}>
-                  {result.display_name || result.predicted_crop}
+                  {result.display_name || result.hindi_name || result.predicted_crop}
                 </h2>
+                {result.category && (
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginTop: 2 }}>
+                    श्रेणी: {result.category}
+                  </span>
+                )}
               </div>
 
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 999, backgroundColor: 'var(--bg-surface-sage)', border: '1px solid var(--border-card)', fontWeight: 800, color: 'var(--primary-forest)' }}>
@@ -298,6 +358,30 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                 <span>{result.confidence}% {isHi ? 'सटीकता' : 'Confidence'}</span>
               </div>
             </div>
+
+            {/* Extra Fruit Badges (Nutrition, Season, Market Rate) */}
+            {activeTab === 'fruit' && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
+                {result.nutrition && (
+                  <div style={{ padding: '10px 14px', backgroundColor: '#FEF3C7', borderRadius: 12, border: '1px solid #FDE68A' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#92400E' }}>🥗 पोषण व स्वास्थ्य (Nutrition)</span>
+                    <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#78350F', marginTop: 3 }}>{result.nutrition}</div>
+                  </div>
+                )}
+                {result.harvest_season && (
+                  <div style={{ padding: '10px 14px', backgroundColor: '#EFF6FF', borderRadius: 12, border: '1px solid #BFDBFE' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#1E40AF' }}>📅 तुड़ाई / मौसम (Harvest Season)</span>
+                    <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#1E3A8A', marginTop: 3 }}>{result.harvest_season}</div>
+                  </div>
+                )}
+                {result.market_rate && (
+                  <div style={{ padding: '10px 14px', backgroundColor: '#F0FDF4', borderRadius: 12, border: '1px solid #BBF7D0' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#166534' }}>💰 अनुमानित बाजार भाव (Market Rate)</span>
+                    <div style={{ fontSize: '0.86rem', fontWeight: 700, color: '#14532D', marginTop: 3 }}>{result.market_rate}</div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Image Preview & Top 3 Probabilities */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20, marginBottom: 20 }}>

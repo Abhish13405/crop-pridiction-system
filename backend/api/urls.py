@@ -10,7 +10,8 @@ from .views import (
     FarmerLoginView,
     FarmerLogoutView,
     FarmerStatusView,
-    MandiRatesView
+    MandiRatesView,
+    FruitDetectionView
 )
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
     path('farms/', FarmListCreateView.as_view(), name='farm_list_create'),
     path('recommend-crop/', CropRecommendationView.as_view(), name='recommend_crop'),
     path('predict-image/', PlantDiseaseDetectionView.as_view(), name='predict_image'),
+    path('predict-fruit/', FruitDetectionView.as_view(), name='predict_fruit'),
     path('history/', HistoryListView.as_view(), name='history_list'),
     path('soil-health/', SoilHealthInterpretView.as_view(), name='soil_health_interpret'),
     path('mandi-rates/', MandiRatesView.as_view(), name='mandi_rates'),
