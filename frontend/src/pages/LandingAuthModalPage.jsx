@@ -97,7 +97,7 @@ export default function LandingAuthModalPage() {
         pointerEvents: 'none'
       }} />
 
-      {/* Main Elevated Modal Frame (similar to user mockup) */}
+      {/* Main Elevated Modal Frame */}
       <div style={{
         width: '100%',
         maxWidth: '1120px',
@@ -108,7 +108,7 @@ export default function LandingAuthModalPage() {
         position: 'relative',
         zIndex: 10
       }}>
-        {/* Inner Split-Card */}
+        {/* Inner Split-Card: Image on LEFT, Form on RIGHT */}
         <div style={{
           background: '#ffffff',
           borderRadius: '24px',
@@ -118,7 +118,177 @@ export default function LandingAuthModalPage() {
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)'
         }}>
 
-          {/* LEFT SIDE: Auth / Sign-up Form */}
+          {/* LEFT SIDE: Visual Card with Authentic Lush Green Agricultural Crop Fields & Team Members */}
+          <div style={{
+            position: 'relative',
+            minHeight: '480px',
+            backgroundImage: `linear-gradient(rgba(7, 26, 15, 0.45), rgba(4, 20, 10, 0.85)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '32px 28px',
+            color: '#ffffff',
+            margin: '12px',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.3)'
+          }}>
+            {/* Top Emblem / Circular Logo */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '10px'
+            }}>
+              <div style={{
+                width: '84px',
+                height: '84px',
+                borderRadius: '50%',
+                border: '3.5px solid rgba(255, 255, 255, 0.95)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(8px)',
+                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)'
+              }}>
+                <Sprout size={44} color="#ffffff" strokeWidth={2.2} />
+              </div>
+            </div>
+
+            {/* Middle Badge / Project Highlight */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.12)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              borderRadius: '16px',
+              padding: '16px 20px',
+              textAlign: 'center',
+              margin: '16px 0'
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '0.78rem',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                color: '#86efac',
+                fontWeight: 800,
+                marginBottom: '4px'
+              }}>
+                <Sparkles size={14} />
+                <span>Agricultural AI Innovation</span>
+              </div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '2px 0 6px 0' }}>
+                FasalMitra • Crop Prediction System
+              </h3>
+              <p style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.85)', margin: 0, lineHeight: 1.4 }}>
+                Smart Crop Intelligence, Soil NPK Health, Plant Pathology & Live APMC Mandi Rates for Indian Farmers.
+              </p>
+            </div>
+
+            {/* BOTTOM SECTION: Team Members Banner */}
+            <div style={{
+              background: 'rgba(5, 20, 10, 0.82)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(74, 222, 128, 0.3)',
+              borderRadius: '16px',
+              padding: '16px 18px',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+                paddingBottom: '8px',
+                marginBottom: '10px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Users size={16} color="#4ade80" />
+                  <span style={{ fontSize: '0.86rem', fontWeight: 800, letterSpacing: '0.3px', color: '#f0fdf4' }}>
+                    Project Development Team
+                  </span>
+                </div>
+                <span style={{
+                  fontSize: '0.72rem',
+                  background: 'rgba(74, 222, 128, 0.2)',
+                  color: '#86efac',
+                  padding: '2px 8px',
+                  borderRadius: '9999px',
+                  fontWeight: 700
+                }}>
+                  Core Contributors
+                </span>
+              </div>
+
+              {/* Grid of Team Members */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                gap: '8px'
+              }}>
+                {teamMembers.map((member, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.07)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '10px',
+                      padding: '8px 10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <div style={{
+                      width: '26px',
+                      height: '26px',
+                      borderRadius: '50%',
+                      background: index === 0 ? '#22c55e' : 'rgba(255, 255, 255, 0.2)',
+                      color: index === 0 ? '#052e16' : '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: '0.75rem',
+                      fontWeight: 800,
+                      flexShrink: 0
+                    }}>
+                      {member.name.charAt(0)}
+                    </div>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        color: '#ffffff',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden'
+                      }}>
+                        {member.name}
+                      </div>
+                      <div style={{
+                        fontSize: '0.68rem',
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden'
+                      }}>
+                        {member.role}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+
+          {/* RIGHT SIDE: Auth / Sign-up Form */}
           <div style={{
             padding: '40px 36px',
             display: 'flex',
@@ -397,176 +567,6 @@ export default function LandingAuthModalPage() {
                 {isHi ? 'लाइव मंडी भाव' : 'Live Mandi Bhav'} →
               </Link>
             </div>
-          </div>
-
-
-          {/* RIGHT SIDE: Visual Card with Authentic Lush Green Agricultural Crop Fields & Team Members */}
-          <div style={{
-            position: 'relative',
-            minHeight: '480px',
-            backgroundImage: `linear-gradient(rgba(7, 26, 15, 0.45), rgba(4, 20, 10, 0.85)), url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: '32px 28px',
-            color: '#ffffff',
-            margin: '12px',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            boxShadow: 'inset 0 0 40px rgba(0,0,0,0.3)'
-          }}>
-            {/* Top Emblem / Circular Logo (Matching the user screenshot's white badge) */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '10px'
-            }}>
-              <div style={{
-                width: '84px',
-                height: '84px',
-                borderRadius: '50%',
-                border: '3.5px solid rgba(255, 255, 255, 0.95)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'rgba(255, 255, 255, 0.15)',
-                backdropFilter: 'blur(8px)',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)'
-              }}>
-                <Sprout size={44} color="#ffffff" strokeWidth={2.2} />
-              </div>
-            </div>
-
-            {/* Middle Badge / Project Highlight */}
-            <div style={{
-              background: 'rgba(255, 255, 255, 0.12)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              borderRadius: '16px',
-              padding: '16px 20px',
-              textAlign: 'center',
-              margin: '16px 0'
-            }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                fontSize: '0.78rem',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                color: '#86efac',
-                fontWeight: 800,
-                marginBottom: '4px'
-              }}>
-                <Sparkles size={14} />
-                <span>Agricultural AI Innovation</span>
-              </div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '2px 0 6px 0' }}>
-                FasalMitra • Crop Prediction System
-              </h3>
-              <p style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.85)', margin: 0, lineHeight: 1.4 }}>
-                Smart Crop Intelligence, Soil NPK Health, Plant Pathology & Live APMC Mandi Rates for Indian Farmers.
-              </p>
-            </div>
-
-            {/* BOTTOM SECTION: Team Members Banner (As requested by user) */}
-            <div style={{
-              background: 'rgba(5, 20, 10, 0.82)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(74, 222, 128, 0.3)',
-              borderRadius: '16px',
-              padding: '16px 18px',
-              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
-                paddingBottom: '8px',
-                marginBottom: '10px'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Users size={16} color="#4ade80" />
-                  <span style={{ fontSize: '0.86rem', fontWeight: 800, letterSpacing: '0.3px', color: '#f0fdf4' }}>
-                    Project Development Team
-                  </span>
-                </div>
-                <span style={{
-                  fontSize: '0.72rem',
-                  background: 'rgba(74, 222, 128, 0.2)',
-                  color: '#86efac',
-                  padding: '2px 8px',
-                  borderRadius: '9999px',
-                  fontWeight: 700
-                }}>
-                  Core Contributors
-                </span>
-              </div>
-
-              {/* Grid of Team Members */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-                gap: '8px'
-              }}>
-                {teamMembers.map((member, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: '10px',
-                      padding: '8px 10px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <div style={{
-                      width: '26px',
-                      height: '26px',
-                      borderRadius: '50%',
-                      background: index === 0 ? '#22c55e' : 'rgba(255, 255, 255, 0.2)',
-                      color: index === 0 ? '#052e16' : '#ffffff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '0.75rem',
-                      fontWeight: 800,
-                      flexShrink: 0
-                    }}>
-                      {member.name.charAt(0)}
-                    </div>
-                    <div style={{ overflow: 'hidden' }}>
-                      <div style={{
-                        fontSize: '0.82rem',
-                        fontWeight: 700,
-                        color: '#ffffff',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden'
-                      }}>
-                        {member.name}
-                      </div>
-                      <div style={{
-                        fontSize: '0.68rem',
-                        color: 'rgba(255, 255, 255, 0.7)',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden'
-                      }}>
-                        {member.role}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
 
         </div>
