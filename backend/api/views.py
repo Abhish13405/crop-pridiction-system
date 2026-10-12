@@ -149,10 +149,14 @@ class DashboardSummaryView(APIView):
     - Real agro-weather from Open-Meteo with clear source & timestamp
     - Useful quick shortcuts
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
-        user = request.user
+        user = request.user if (request.user and request.user.is_authenticated) else None
+        if not user:
+            user = User.objects.first()
+            if not user:
+                user = User.objects.create_user(username='demo_farmer', first_name='रामकुमार सिंह')
 
         # 1. Fetch saved farms for this farmer (seed personal starter plot if user has none)
         farms = Farm.objects.filter(user=user)
@@ -231,27 +235,37 @@ class DashboardSummaryView(APIView):
 
 class FarmListCreateView(APIView):
     """List all saved farms for the authenticated farmer or create a new farm."""
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+
+    def get_effective_user(self, request):
+        user = request.user if (request.user and request.user.is_authenticated) else None
+        if not user:
+            user = User.objects.first()
+            if not user:
+                user = User.objects.create_user(username='demo_farmer', first_name='रामकुमार सिंह')
+        return user
 
     def get(self, request):
-        farms = Farm.objects.filter(user=request.user)
+        user = self.get_effective_user(request)
+        farms = Farm.objects.filter(user=user)
         if not farms.exists():
             Farm.objects.create(
-                user=request.user,
-                name=f"{request.user.first_name or 'किसान'} का मुख्य खेत (Main Field)",
+                user=user,
+                name=f"{user.first_name or 'किसान'} का मुख्य खेत (Main Field)",
                 location="वाराणसी (Varanasi, UP)",
                 area_acres=3.5,
                 soil_type="दोमट मिट्टी (Alluvial Loam)",
                 irrigation_source="नलकूप / बोरवेल (Tube-well)"
             )
-            farms = Farm.objects.filter(user=request.user)
+            farms = Farm.objects.filter(user=user)
         serializer = FarmSerializer(farms, many=True)
         return Response({"success": True, "count": farms.count(), "farms": serializer.data})
 
     def post(self, request):
+        user = self.get_effective_user(request)
         serializer = FarmSerializer(data=request.data)
         if serializer.is_valid():
-            farm = serializer.save(user=request.user)
+            farm = serializer.save(user=user)
             return Response({"success": True, "message": "खेत सफलतापूर्वक जोड़ा गया!", "farm": FarmSerializer(farm).data}, status=status.HTTP_201_CREATED)
         return Response({"success": False, "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -279,7 +293,7 @@ class CropRecommendationView(APIView):
     Returns primary prediction, alternatives, confidence, and validated agronomic guidance.
     Strictly validates input ranges and prevents duplicate recommendations.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         data = request.data or {}
@@ -385,20 +399,21 @@ class CropRecommendationView(APIView):
         # 7. Save Record to Database History with User Attribution
         record_id = None
         if save_history:
+            user_obj = request.user if (request.user and request.user.is_authenticated) else None
             farm_obj = None
-            if farm_id:
+            if user_obj and farm_id:
                 try:
-                    farm_obj = Farm.objects.get(id=farm_id, user=request.user)
+                    farm_obj = Farm.objects.get(id=farm_id, user=user_obj)
                 except Farm.DoesNotExist:
                     farm_obj = None
-            if not farm_obj:
-                farm_obj = Farm.objects.filter(user=request.user).first()
+            if not farm_obj and user_obj:
+                farm_obj = Farm.objects.filter(user=user_obj).first()
 
             farm_name = farm_obj.name if farm_obj else location
 
             alt_names = [a['crop'] for a in alternatives]
             record = CropRecommendationRecord.objects.create(
-                user=request.user,
+                user=user_obj,
                 farm=farm_obj,
                 farm_name=farm_name,
                 nitrogen=n,
