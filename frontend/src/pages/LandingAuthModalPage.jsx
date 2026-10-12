@@ -16,13 +16,13 @@ import {
   Compass,
   Layers,
   ChevronRight,
-  ShieldCheck,
+  Globe,
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function LandingAuthModalPage() {
-  const { register, login, guestLogin, lang } = useAuth();
+  const { register, login, guestLogin, lang, toggleLang } = useAuth();
   const isHi = lang === 'hi';
   const navigate = useNavigate();
 
@@ -35,16 +35,16 @@ export default function LandingAuthModalPage() {
 
   // Signup Form Fields
   const [signupData, setSignupData] = useState({
-    name: 'अभिषेक कुशवाहा',
+    name: 'Abhishek Kushwaha',
     email: 'abhishek@fasalmitra.ai',
     phone: '9876543210',
     password: 'password123',
     confirmPassword: 'password123',
-    state: 'उत्तर प्रदेश (Uttar Pradesh)',
-    city: 'वाराणसी (Varanasi)',
-    village: 'रोहनिया (Rohaniya)',
+    state: isHi ? 'उत्तर प्रदेश (Uttar Pradesh)' : 'Uttar Pradesh',
+    city: isHi ? 'वाराणसी (Varanasi)' : 'Varanasi',
+    village: isHi ? 'रोहनिया (Rohaniya)' : 'Rohaniya',
     area_acres: '3.5',
-    soil_type: 'दोमट मिट्टी (Loamy Soil)'
+    soil_type: isHi ? 'दोमट मिट्टी (Loamy Soil)' : 'Loamy Soil'
   });
 
   // Login Form Fields
@@ -52,7 +52,7 @@ export default function LandingAuthModalPage() {
   const [loginPassword, setLoginPassword] = useState('password123');
 
   // Indian Agricultural States
-  const indianStates = [
+  const indianStatesHi = [
     'उत्तर प्रदेश (Uttar Pradesh)',
     'बिहार (Bihar)',
     'मध्य प्रदेश (Madhya Pradesh)',
@@ -68,8 +68,24 @@ export default function LandingAuthModalPage() {
     'छत्तीसगढ़ (Chhattisgarh)'
   ];
 
+  const indianStatesEn = [
+    'Uttar Pradesh',
+    'Bihar',
+    'Madhya Pradesh',
+    'Punjab',
+    'Haryana',
+    'Rajasthan',
+    'Maharashtra',
+    'Gujarat',
+    'West Bengal',
+    'Karnataka',
+    'Uttarakhand',
+    'Jharkhand',
+    'Chhattisgarh'
+  ];
+
   // Soil types
-  const soilTypes = [
+  const soilTypesHi = [
     'दोमट मिट्टी (Loamy Soil)',
     'काली मिट्टी (Black Soil / Regur)',
     'जलोढ़ मिट्टी (Alluvial Soil)',
@@ -78,12 +94,41 @@ export default function LandingAuthModalPage() {
     'चिकनी मिट्टी (Clay Soil)'
   ];
 
+  const soilTypesEn = [
+    'Loamy Soil',
+    'Black Soil (Regur)',
+    'Alluvial Soil',
+    'Sandy Loam',
+    'Red & Yellow Soil',
+    'Clay Soil'
+  ];
+
   // Team Members
   const teamMembers = [
-    { name: 'Abhishek Kushwaha', role: 'Team Lead & ML / Full-Stack Architect', badge: 'Lead' },
-    { name: 'Aman Gupta', role: 'Frontend & Model Integration Engineer', badge: 'Core' },
-    { name: 'Jaya Maurya', role: 'Data Analysis & Disease Model Specialist', badge: 'Core' },
-    { name: 'Mriganka Singh', role: 'Agricultural Research & UI/UX Co-Lead', badge: 'Core' }
+    { 
+      name: 'Abhishek Kushwaha', 
+      roleHi: 'टीम लीडर एवं एमएल / फुल-स्टैक आर्किटेक्ट',
+      roleEn: 'Team Lead & ML / Full-Stack Architect', 
+      badge: 'Lead' 
+    },
+    { 
+      name: 'Aman Gupta', 
+      roleHi: 'फ्रंटएंड एवं मॉडल इंटीग्रेशन इंजीनियर',
+      roleEn: 'Frontend & Model Integration Engineer', 
+      badge: 'Core' 
+    },
+    { 
+      name: 'Jaya Maurya', 
+      roleHi: 'डेटा विश्लेषण एवं पौध रोग विशेषज्ञ',
+      roleEn: 'Data Analysis & Disease Model Specialist', 
+      badge: 'Core' 
+    },
+    { 
+      name: 'Mriganka Singh', 
+      roleHi: 'कृषि अनुसंधान एवं यूआई/यूएक्स को-लीड',
+      roleEn: 'Agricultural Research & UI/UX Co-Lead', 
+      badge: 'Core' 
+    }
   ];
 
   const handleSignupChange = (e) => {
@@ -98,11 +143,11 @@ export default function LandingAuthModalPage() {
     setSuccessMsg('');
 
     if (!signupData.name.trim()) {
-      setErrorMsg('कृपया अपना पूरा नाम दर्ज करें।');
+      setErrorMsg(isHi ? 'कृपया अपना पूरा नाम दर्ज करें।' : 'Please enter your full name.');
       return;
     }
     if (signupData.password !== signupData.confirmPassword) {
-      setErrorMsg('पासवर्ड और पुष्टि पासवर्ड एक समान होने चाहिए!');
+      setErrorMsg(isHi ? 'पासवर्ड और पुष्टि पासवर्ड एक समान होने चाहिए!' : 'Password and Confirm Password must match!');
       return;
     }
 
@@ -110,20 +155,22 @@ export default function LandingAuthModalPage() {
     try {
       const res = await register(signupData);
       if (res && res.success) {
-        setSuccessMsg('✅ पंजीकरण सफल! आपका खाता सुरक्षित बन गया है। अब कृपया लॉगिन करें।');
-        // Pre-fill login identifier
+        setSuccessMsg(
+          isHi 
+            ? '✅ पंजीकरण सफल! आपका खाता सुरक्षित बन गया है। अब कृपया लॉगिन करें।' 
+            : '✅ Registration successful! Your account is created. Please log in now.'
+        );
         setLoginIdentifier(signupData.email || signupData.phone);
         setLoginPassword(signupData.password);
-        // Automatically switch to login tab after brief pause
         setTimeout(() => {
           setMode('login');
         }, 1200);
       } else {
-        setErrorMsg(res?.error || 'पंजीकरण में त्रुटि आई। कृपया पुनः प्रयास करें।');
+        setErrorMsg(res?.error || (isHi ? 'पंजीकरण में त्रुटि आई। कृपया पुनः प्रयास करें।' : 'Registration failed. Please try again.'));
       }
     } catch (err) {
       console.error('Signup error:', err);
-      setErrorMsg('सर्वर से कनेक्ट होने में समस्या आई।');
+      setErrorMsg(isHi ? 'सर्वर से कनेक्ट होने में समस्या आई।' : 'Server connection error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -139,12 +186,12 @@ export default function LandingAuthModalPage() {
         email: loginIdentifier,
         phone: loginIdentifier,
         password: loginPassword,
-        name: signupData.name || 'किसान'
+        name: signupData.name || (isHi ? 'किसान' : 'Farmer')
       });
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
-      setErrorMsg('लॉगिन करने में त्रुटि। कृपया पुनः प्रयास करें।');
+      setErrorMsg(isHi ? 'लॉगिन करने में त्रुटि। कृपया पुनः प्रयास करें।' : 'Login failed. Please verify credentials.');
     } finally {
       setLoading(false);
     }
@@ -220,7 +267,7 @@ export default function LandingAuthModalPage() {
             borderRadius: '20px',
             overflow: 'hidden'
           }}>
-            {/* Top Emblem */}
+            {/* Top Emblem & Language Switch */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{
@@ -241,32 +288,34 @@ export default function LandingAuthModalPage() {
                     FasalMitra AI
                   </h3>
                   <span style={{ fontSize: '0.78rem', color: '#86efac', fontWeight: 600 }}>
-                    स्मार्ट कृषि निर्णय प्रणाली
+                    {isHi ? 'स्मार्ट कृषि निर्णय प्रणाली' : 'Smart Agriculture Decision System'}
                   </span>
                 </div>
               </div>
 
-              {/* Guest Quick Pill */}
+              {/* Language Switcher Pill */}
               <button
                 type="button"
-                onClick={handleGuestExplore}
+                onClick={toggleLang}
+                title={isHi ? 'Switch to English' : 'हिंदी में बदलें'}
                 style={{
-                  background: 'rgba(34, 197, 94, 0.25)',
-                  border: '1.5px solid #4ade80',
+                  background: 'rgba(255, 255, 255, 0.18)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.5)',
                   color: '#ffffff',
                   padding: '6px 14px',
                   borderRadius: '9999px',
-                  fontSize: '0.78rem',
-                  fontWeight: 700,
+                  fontSize: '0.8rem',
+                  fontWeight: 800,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  backdropFilter: 'blur(6px)'
+                  backdropFilter: 'blur(8px)',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                <span>🌾 अतिथि मोड (Guest)</span>
-                <ChevronRight size={14} />
+                <Globe size={14} color="#86efac" />
+                <span>{isHi ? 'English Version' : 'हिन्दी संस्करण'}</span>
               </button>
             </div>
 
@@ -291,13 +340,17 @@ export default function LandingAuthModalPage() {
                 marginBottom: '6px'
               }}>
                 <Sparkles size={14} />
-                <span>Modern Agro-Intelligence</span>
+                <span>{isHi ? 'आधुनिक कृषि नवाचार' : 'Agricultural AI Innovation'}</span>
               </div>
               <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '2px 0 6px 0' }}>
-                सटीक फसल चयन • रोग निदान • लाइव मंडी भाव
+                {isHi 
+                  ? 'सटीक फसल चयन • रोग निदान • लाइव मंडी भाव' 
+                  : 'Precise Crop Selection • Plant Pathology • Live Mandi Rates'}
               </h4>
               <p style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.88)', margin: 0, lineHeight: 1.45 }}>
-                मशीन लर्निंग (Random Forest 99.55% Acc) और डीप लर्निंग (CNN 30 Classes) द्वारा संचालित संपूर्ण किसान सहायता मंच।
+                {isHi 
+                  ? 'मशीन लर्निंग (Random Forest 99.55% Acc) और डीप लर्निंग (CNN 30 Classes) द्वारा संचालित संपूर्ण किसान सहायता मंच।' 
+                  : 'Empowered by Random Forest (99.55% Acc) and Deep Learning (CNN 30 Classes) for precision Indian agriculture.'}
               </p>
             </div>
 
@@ -321,7 +374,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Users size={16} color="#4ade80" />
                   <span style={{ fontSize: '0.84rem', fontWeight: 800, color: '#f0fdf4' }}>
-                    Project Development Team
+                    {isHi ? 'परियोजना विकास दल (Project Team)' : 'Project Development Team'}
                   </span>
                 </div>
                 <span style={{
@@ -332,7 +385,7 @@ export default function LandingAuthModalPage() {
                   borderRadius: '9999px',
                   fontWeight: 700
                 }}>
-                  Core Contributors
+                  {isHi ? 'प्रमुख योगदानकर्ता' : 'Core Contributors'}
                 </span>
               </div>
 
@@ -387,7 +440,7 @@ export default function LandingAuthModalPage() {
                         textOverflow: 'ellipsis',
                         overflow: 'hidden'
                       }}>
-                        {member.role}
+                        {isHi ? member.roleHi : member.roleEn}
                       </div>
                     </div>
                   </div>
@@ -406,13 +459,37 @@ export default function LandingAuthModalPage() {
             backgroundColor: '#ffffff'
           }}>
 
+            {/* Top Language Toggle Switch for Right Column */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
+              <button
+                type="button"
+                onClick={toggleLang}
+                style={{
+                  background: '#f8fafc',
+                  border: '1px solid #cbd5e1',
+                  color: '#334155',
+                  padding: '4px 12px',
+                  borderRadius: '9999px',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                <Globe size={13} color="#16a34a" />
+                <span>{isHi ? 'Switch to English' : 'हिंदी में बदलें'}</span>
+              </button>
+            </div>
+
             {/* Mode Toggle Pills (Sign Up vs Log In) */}
             <div style={{
               display: 'flex',
               background: '#f1f5f9',
               padding: '4px',
               borderRadius: '9999px',
-              marginBottom: '20px'
+              marginBottom: '18px'
             }}>
               <button
                 type="button"
@@ -430,7 +507,7 @@ export default function LandingAuthModalPage() {
                   transition: 'all 0.2s ease'
                 }}
               >
-                1. नया खाता बनाएं (Sign Up)
+                {isHi ? '1. नया खाता बनाएं (Sign Up)' : '1. Create Account (Sign Up)'}
               </button>
               <button
                 type="button"
@@ -448,7 +525,7 @@ export default function LandingAuthModalPage() {
                   transition: 'all 0.2s ease'
                 }}
               >
-                2. लॉगिन करें (Log In)
+                {isHi ? '2. लॉगिन करें (Log In)' : '2. Sign In (Log In)'}
               </button>
             </div>
 
@@ -496,10 +573,12 @@ export default function LandingAuthModalPage() {
               <form onSubmit={handleSignupSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ marginBottom: '4px' }}>
                   <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>
-                    किसान पंजीकरण फॉर्म (Registration)
+                    {isHi ? 'किसान पंजीकरण फॉर्म' : 'Farmer Registration Form'}
                   </h2>
                   <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0 }}>
-                    सटीक कृषि सलाह और व्यक्तिगत रिकॉर्ड के लिए कृपया अपनी सही जानकारी भरें:
+                    {isHi 
+                      ? 'सटीक कृषि सलाह और व्यक्तिगत रिकॉर्ड के लिए कृपया अपनी सही जानकारी भरें:' 
+                      : 'Please provide your farm details for personalized AI recommendations & records:'}
                   </p>
                 </div>
 
@@ -507,7 +586,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      पूरा नाम (Full Name) *
+                      {isHi ? 'पूरा नाम (Full Name) *' : 'Full Name *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -523,7 +602,7 @@ export default function LandingAuthModalPage() {
                         name="name"
                         value={signupData.name}
                         onChange={handleSignupChange}
-                        placeholder="उदा. अभिषेक कुशवाहा"
+                        placeholder={isHi ? 'उदा. अभिषेक कुशवाहा' : 'e.g. Abhishek Kushwaha'}
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -532,7 +611,7 @@ export default function LandingAuthModalPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      ईमेल पता (Email) *
+                      {isHi ? 'ईमेल पता (Email) *' : 'Email Address *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -548,7 +627,7 @@ export default function LandingAuthModalPage() {
                         name="email"
                         value={signupData.email}
                         onChange={handleSignupChange}
-                        placeholder="abhishek@gmail.com"
+                        placeholder="abhishek@fasalmitra.ai"
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -560,7 +639,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      मोबाइल नंबर (Phone) *
+                      {isHi ? 'मोबाइल नंबर (Phone) *' : 'Phone Number *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -585,7 +664,7 @@ export default function LandingAuthModalPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      राज्य (State) *
+                      {isHi ? 'राज्य (State) *' : 'State *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -602,7 +681,7 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.86rem', background: 'transparent' }}
                       >
-                        {indianStates.map((st, i) => (
+                        {(isHi ? indianStatesHi : indianStatesEn).map((st, i) => (
                           <option key={i} value={st}>{st}</option>
                         ))}
                       </select>
@@ -614,7 +693,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      जिला / शहर (City / District) *
+                      {isHi ? 'जिला / शहर (City / District) *' : 'City / District *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -630,7 +709,7 @@ export default function LandingAuthModalPage() {
                         name="city"
                         value={signupData.city}
                         onChange={handleSignupChange}
-                        placeholder="उदा. वाराणसी / लखनऊ / पटना"
+                        placeholder={isHi ? 'उदा. वाराणसी / लखनऊ / पटना' : 'e.g. Varanasi / Lucknow / Patna'}
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -639,7 +718,7 @@ export default function LandingAuthModalPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      गाँव / तहसील (Village / Location) *
+                      {isHi ? 'गाँव / तहसील (Village / Location) *' : 'Village / Location *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -655,7 +734,7 @@ export default function LandingAuthModalPage() {
                         name="village"
                         value={signupData.village}
                         onChange={handleSignupChange}
-                        placeholder="उदा. रोहनिया / रामगढ़"
+                        placeholder={isHi ? 'उदा. रोहनिया / रामगढ़' : 'e.g. Rohaniya / Ramgarh'}
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -667,7 +746,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      खेत का रकबा (Area in Acres)
+                      {isHi ? 'खेत का रकबा (Area in Acres)' : 'Farm Area (Acres)'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -692,7 +771,7 @@ export default function LandingAuthModalPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      मिट्टी का प्रकार (Soil Type)
+                      {isHi ? 'मिट्टी का प्रकार (Soil Type)' : 'Soil Type'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -709,7 +788,7 @@ export default function LandingAuthModalPage() {
                         onChange={handleSignupChange}
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.86rem', background: 'transparent' }}
                       >
-                        {soilTypes.map((st, i) => (
+                        {(isHi ? soilTypesHi : soilTypesEn).map((st, i) => (
                           <option key={i} value={st}>{st}</option>
                         ))}
                       </select>
@@ -721,7 +800,7 @@ export default function LandingAuthModalPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      पासवर्ड (Password) *
+                      {isHi ? 'पासवर्ड (Password) *' : 'Password *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -737,7 +816,7 @@ export default function LandingAuthModalPage() {
                         name="password"
                         value={signupData.password}
                         onChange={handleSignupChange}
-                        placeholder="पासवर्ड बनाएं"
+                        placeholder={isHi ? 'पासवर्ड बनाएं' : 'Create password'}
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -746,7 +825,7 @@ export default function LandingAuthModalPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <label style={{ fontSize: '0.78rem', fontWeight: 700, color: '#334155' }}>
-                      पासवर्ड पुष्टि (Confirm) *
+                      {isHi ? 'पासवर्ड पुष्टि (Confirm) *' : 'Confirm Password *'}
                     </label>
                     <div style={{
                       display: 'flex',
@@ -762,7 +841,7 @@ export default function LandingAuthModalPage() {
                         name="confirmPassword"
                         value={signupData.confirmPassword}
                         onChange={handleSignupChange}
-                        placeholder="पासवर्ड पुनः दर्ज करें"
+                        placeholder={isHi ? 'पासवर्ड पुनः दर्ज करें' : 'Re-enter password'}
                         required
                         style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.88rem' }}
                       />
@@ -801,7 +880,11 @@ export default function LandingAuthModalPage() {
                   onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#15803d'}
                   onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#16a34a'}
                 >
-                  <span>{loading ? 'पंजीकरण हो रहा है...' : 'खाता बनाएं एवं आगे बढ़ें (Register & Continue)'}</span>
+                  <span>
+                    {loading 
+                      ? (isHi ? 'पंजीकरण हो रहा है...' : 'Creating Account...') 
+                      : (isHi ? 'खाता बनाएं एवं आगे बढ़ें (Register & Continue)' : 'Register & Continue')}
+                  </span>
                   <ArrowRight size={17} />
                 </button>
               </form>
@@ -810,16 +893,18 @@ export default function LandingAuthModalPage() {
               <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ marginBottom: '8px' }}>
                   <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>
-                    किसान लॉगिन (Farmer Login)
+                    {isHi ? 'किसान लॉगिन (Farmer Login)' : 'Farmer Login'}
                   </h2>
                   <p style={{ fontSize: '0.84rem', color: '#64748b', margin: 0 }}>
-                    अपने पंजीकृत ईमेल या फ़ोन नंबर और पासवर्ड से पोर्टल में प्रवेश करें:
+                    {isHi 
+                      ? 'अपने पंजीकृत ईमेल या फ़ोन नंबर और पासवर्ड से पोर्टल में प्रवेश करें:' 
+                      : 'Sign in with your registered email or mobile number and password:'}
                   </p>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155' }}>
-                    ईमेल अथवा मोबाइल नंबर (Email / Phone) *
+                    {isHi ? 'ईमेल अथवा मोबाइल नंबर (Email / Phone) *' : 'Email or Phone Number *'}
                   </label>
                   <div style={{
                     display: 'flex',
@@ -834,7 +919,7 @@ export default function LandingAuthModalPage() {
                       type="text"
                       value={loginIdentifier}
                       onChange={(e) => setLoginIdentifier(e.target.value)}
-                      placeholder="abhishek@fasalmitra.ai या 9876543210"
+                      placeholder={isHi ? 'abhishek@fasalmitra.ai या 9876543210' : 'abhishek@fasalmitra.ai or 9876543210'}
                       required
                       style={{ border: 'none', outline: 'none', width: '100%', padding: '8px 0', fontSize: '0.92rem' }}
                     />
@@ -843,7 +928,7 @@ export default function LandingAuthModalPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <label style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155' }}>
-                    पासवर्ड (Password) *
+                    {isHi ? 'पासवर्ड (Password) *' : 'Password *'}
                   </label>
                   <div style={{
                     display: 'flex',
@@ -895,7 +980,11 @@ export default function LandingAuthModalPage() {
                   onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#27272a'}
                   onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#18181b'}
                 >
-                  <span>{loading ? 'सत्यापन हो रहा है...' : 'लॉगिन करें और प्रवेश करें (Log In to Portal)'}</span>
+                  <span>
+                    {loading 
+                      ? (isHi ? 'सत्यापन हो रहा है...' : 'Verifying...') 
+                      : (isHi ? 'लॉगिन करें और प्रवेश करें (Log In)' : 'Log In to Portal')}
+                  </span>
                   <ArrowRight size={17} />
                 </button>
               </form>
@@ -914,7 +1003,7 @@ export default function LandingAuthModalPage() {
                 fontWeight: 600,
                 marginBottom: '10px'
               }}>
-                या बिना लॉगिन किए सीधे इस्तेमाल करें:
+                {isHi ? 'या बिना लॉगिन किए सीधे इस्तेमाल करें:' : 'Or explore immediately without signing in:'}
               </div>
 
               {/* GUEST MODE CARD / BUTTON */}
@@ -953,10 +1042,12 @@ export default function LandingAuthModalPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#166534' }}>
-                      🌾 अतिथि मोड (Continue as Guest)
+                      {isHi ? '🌾 अतिथि मोड (Continue as Guest)' : '🌾 Continue as Guest'}
                     </div>
                     <div style={{ fontSize: '0.75rem', color: '#15803d' }}>
-                      बिना पासवर्ड / लॉगिन के सभी AI फीचर्स (फसल, रोग, मंडी) देखें
+                      {isHi 
+                        ? 'बिना पासवर्ड / लॉगिन के सभी AI फीचर्स (फसल, रोग, मंडी) देखें' 
+                        : 'Explore all AI tools (Crops, Disease, Mandi rates) without login'}
                     </div>
                   </div>
                 </div>
@@ -971,7 +1062,7 @@ export default function LandingAuthModalPage() {
                   alignItems: 'center',
                   gap: '4px'
                 }}>
-                  <span>सीधे प्रवेश</span>
+                  <span>{isHi ? 'सीधे प्रवेश' : 'Enter Directly'}</span>
                   <ChevronRight size={14} />
                 </div>
               </button>
@@ -986,9 +1077,9 @@ export default function LandingAuthModalPage() {
               color: '#64748b',
               marginTop: '8px'
             }}>
-              <span>🛡️ डेटा 100% सुरक्षित एवं स्थानीय</span>
+              <span>{isHi ? '🛡️ डेटा 100% सुरक्षित एवं स्थानीय' : '🛡️ 100% Secure & Local Data'}</span>
               <Link to="/explore" style={{ color: '#16a34a', textDecoration: 'none', fontWeight: 700 }}>
-                सार्वजनिक पोर्टल देखें →
+                {isHi ? 'सार्वजनिक पोर्टल देखें →' : 'Explore Public Portal →'}
               </Link>
             </div>
 
