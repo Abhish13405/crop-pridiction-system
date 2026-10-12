@@ -340,6 +340,23 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                   {isHi ? '🌾 अनुशंसित वैज्ञानिक उपचार व रोकथाम' : 'Scientific Treatment & Crop Defense'}
                 </h3>
 
+                {/* Common Threats / Diseases Identified */}
+                {result.guidance.common_threats && result.guidance.common_threats.length > 0 && (
+                  <div style={{ backgroundColor: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: 14, padding: 14, marginBottom: 14 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#92400E', fontWeight: 800, fontSize: '0.88rem', marginBottom: 6 }}>
+                      <ShieldAlert size={16} />
+                      <span>{isHi ? 'संभावित रोग व कीट लक्षण (Common Threats)' : 'Identified Plant Threats'}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      {result.guidance.common_threats.map((threat, tIdx) => (
+                        <span key={tIdx} style={{ backgroundColor: '#FFFBEB', border: '1px solid #FCD34D', borderRadius: 999, padding: '4px 12px', fontSize: '0.8rem', fontWeight: 700, color: '#B45309' }}>
+                          ⚠️ {threat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
                   {/* Organic Care */}
                   <div style={{ backgroundColor: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 14, padding: 16 }}>
@@ -347,8 +364,8 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                       <Leaf size={16} />
                       <span>{isHi ? 'जैविक उपचार (Organic Care)' : 'Organic Remedy'}</span>
                     </div>
-                    <p style={{ fontSize: '0.82rem', color: '#14532D', lineHeight: 1.5 }}>
-                      {result.guidance.organic || 'नीम तेल (5ml/लीटर पानी) का छिड़काव करें एवं ट्राइकोडर्मा विरिडी जैव-कवकनाशी का प्रयोग करें।'}
+                    <p style={{ fontSize: '0.85rem', color: '#14532D', lineHeight: 1.5, margin: 0 }}>
+                      {result.guidance.organic_cure || result.guidance.organic || 'नीम तेल (5ml/लीटर पानी) का छिड़काव करें एवं ट्राइकोडर्मा विरिडी जैव-कवकनाशी का प्रयोग करें।'}
                     </p>
                   </div>
 
@@ -358,11 +375,19 @@ export default function DiseaseDetectionPage({ onBack, lang: propLang }) {
                       <ShieldAlert size={16} />
                       <span>{isHi ? 'रासायनिक उपचार (Chemical Schedule)' : 'Chemical Remedy'}</span>
                     </div>
-                    <p style={{ fontSize: '0.82rem', color: '#1E3A8A', lineHeight: 1.5 }}>
-                      {result.guidance.chemical || 'संक्रमण अधिक होने पर अनुशंसित फफूंदनाशक (Mancozeb या Carbendazim) का घोल बनाकर छिड़काव करें।'}
+                    <p style={{ fontSize: '0.85rem', color: '#1E3A8A', lineHeight: 1.5, margin: 0 }}>
+                      {result.guidance.chemical_cure || result.guidance.chemical || 'संक्रमण अधिक होने पर अनुशंसित फफूंदनाशक (कॉपर ऑक्सीक्लोराइड 3g/लीटर या Mancozeb) का घोल बनाकर छिड़काव करें।'}
                     </p>
                   </div>
                 </div>
+
+                {/* Advisory Note */}
+                {result.guidance.advisory && (
+                  <div style={{ marginTop: 14, padding: 12, backgroundColor: 'var(--bg-page)', borderRadius: 12, border: '1px solid var(--border-card)', fontSize: '0.85rem', color: 'var(--primary-forest)' }}>
+                    <strong>{isHi ? 'कृषि वैज्ञानिक सलाह: ' : 'Expert Agronomic Advisory: '}</strong>
+                    {result.guidance.advisory}
+                  </div>
+                )}
               </div>
             )}
 

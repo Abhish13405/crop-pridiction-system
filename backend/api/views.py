@@ -479,24 +479,70 @@ class PlantDiseaseDetectionView(APIView):
             # 3. Check Uncertainty
             is_uncertain = confidence < 48.0
 
-            # 4. Lookup Agronomic Reference Data
+            # 4. Lookup Agronomic Reference Data with Clear Hindi / English Names
+            HINDI_CROP_NAMES = {
+                'Cherry': 'चेरी (Cherry)',
+                'Coffee-plant': 'कॉफी (Coffee Plant)',
+                'Cucumber': 'खीरा (Cucumber)',
+                'Fox_nut(Makhana)': 'मखाना (Fox Nut / Makhana)',
+                'Lemon': 'नींबू (Lemon / Citrus)',
+                'Olive-tree': 'जैतून (Olive Tree)',
+                'Pearl_millet(bajra)': 'बाजरा (Pearl Millet / Bajra)',
+                'Tobacco-plant': 'तंबाकू (Tobacco Plant)',
+                'almond': 'बादाम (Almond)',
+                'banana': 'केला (Banana)',
+                'cardamom': 'इलायची (Cardamom)',
+                'chilli': 'मिर्च (Chilli)',
+                'clove': 'लौंग (Clove)',
+                'coconut': 'नारियल (Coconut)',
+                'cotton': 'कपास (Cotton)',
+                'gram': 'चना (Bengal Gram / Chickpea)',
+                'jowar': 'ज्वार (Sorghum / Jowar)',
+                'jute': 'जूट (Jute)',
+                'maize': 'मक्का (Maize / Corn)',
+                'mustard-oil': 'सरसों (Mustard)',
+                'papaya': 'पपीता (Papaya)',
+                'pineapple': 'अनानास (Pineapple)',
+                'rice': 'धान / चावल (Paddy / Rice)',
+                'soyabean': 'सोयाबीन (Soybean)',
+                'sugarcane': 'गन्ना (Sugarcane)',
+                'sunflower': 'सूरजमुखी (Sunflower)',
+                'tea': 'चाय की पत्ती (Tea Plant)',
+                'tomato': 'टमाटर (Tomato)',
+                'vigna-radiati(Mung)': 'मूंग (Green Gram / Moong)',
+                'wheat': 'गेहूं (Wheat)'
+            }
+
             crop_details = CROP_DATABASE.get(predicted_class, {})
-            pests_list = crop_details.get('pests', ['पत्ती धब्बा रोग', 'तना छेदक'])
-            organic_care = crop_details.get('organic_remedy', 'नीम तेल (5ml प्रति लीटर पानी) का छिड़काव करें।')
+            pests_list = crop_details.get('pests', ['पत्ती धब्बा रोग (Leaf Spot)', 'कीट / तना छेदक (Stem Borer)'])
+            organic_care = crop_details.get('organic_remedy', 'नीम तेल (5ml प्रति लीटर पानी) अथवा ट्राइकोडर्मा का छिड़काव करें।')
             chemical_care = "कॉपर ऑक्सीक्लोराइड (3 ग्राम/लीटर) या मैंकोजेब (2.5 ग्राम/लीटर) का छिड़काव फफूंद संक्रमण में करें।"
+
+            # Enriched Top 3 with Clear Hindi Crop Names
+            enriched_top3 = []
+            for item in top3_results:
+                raw_n = item.get("name", "")
+                enriched_top3.append({
+                    "crop_key": raw_n,
+                    "name": HINDI_CROP_NAMES.get(raw_n, raw_n),
+                    "confidence": item.get("confidence", 0)
+                })
+
+            display_crop_name = HINDI_CROP_NAMES.get(predicted_class, crop_details.get('display_name', predicted_class.capitalize()))
 
             return Response({
                 "success": True,
                 "predicted_crop": predicted_class,
-                "display_name": crop_details.get('display_name', predicted_class.capitalize()),
+                "display_name": display_crop_name,
                 "confidence": confidence,
-                "top3": top3_results,
+                "top3": enriched_top3,
                 "is_uncertain": is_uncertain,
+                "crop_category": crop_details.get('category', 'कृषि फसल (Agricultural Crop)'),
                 "guidance": {
                     "common_threats": pests_list,
                     "organic_cure": organic_care,
                     "chemical_cure": chemical_care,
-                    "advisory": "पहचान संदिग्ध है। कृपया पत्ते की साफ रोशनी में नई फोटो लें या कृषि विज्ञान केंद्र से पुष्टि करें।" if is_uncertain else "रोग के शुरुआती लक्षण दिखने पर तुरंत जैविक या संस्तुत फफूंदनाशक का छिड़काव करें।"
+                    "advisory": "पहचान संदिग्ध है (कम कॉन्फिडेंस)। कृपया पत्ते की स्पष्ट रोशनी में नई फोटो लें।" if is_uncertain else f"पत्ते का विश्लेषण सफल रहा। यह पत्ता '{display_crop_name}' का प्रतीत होता है। रोग या कीट के शुरुआती लक्षण दिखने पर तुरंत जैविक या संस्तुत फफूंदनाशक का छिड़काव करें।"
                 }
             })
 
