@@ -5,9 +5,11 @@ services:
     region: singapore
     plan: free
     buildCommand: pip install -r requirements.txt && python backend/manage.py migrate
-    startCommand: gunicorn --chdir backend fasalmitra.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: gunicorn --chdir backend fasalmitra.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.12
       - key: DEBUG
         value: False
+      - key: TF_ENABLE_ONEDNN_OPTS
+        value: "0"
